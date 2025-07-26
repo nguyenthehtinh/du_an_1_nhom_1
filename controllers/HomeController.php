@@ -10,8 +10,8 @@ class HomeController
     {
         $this->modelSanPham = new SanPham();
         $this->modelTaiKhoan = new TaiKhoan();
-        $this->modelGioHang = new GioHang();
-        $this->modelDonHang = new DonHang();
+//    //    $this->modelGioHang = new GioHang();
+//    //    $this->modelDonHang = new DonHang();
     }
     public function home()
     {
