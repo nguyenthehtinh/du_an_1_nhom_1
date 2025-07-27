@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th7 26, 2025 lúc 04:47 PM
--- Phiên bản máy phục vụ: 8.4.3
--- Phiên bản PHP: 8.3.16
+-- Thời gian đã tạo: Th7 27, 2025 lúc 06:23 AM
+-- Phiên bản máy phục vụ: 8.0.30
+-- Phiên bản PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,13 +28,23 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `binh_luans` (
-  `id_binh_luan` int NOT NULL,
-  `id_san_pham` int DEFAULT NULL,
-  `id_tai_khoan` int DEFAULT NULL,
+  `id` int NOT NULL,
+  `san_pham_id` int NOT NULL,
+  `tai_khoan_id` int NOT NULL,
   `noi_dung` text NOT NULL,
   `ngay_dang` date NOT NULL,
   `trang_thai` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `binh_luans`
+--
+
+INSERT INTO `binh_luans` (`id`, `san_pham_id`, `tai_khoan_id`, `noi_dung`, `ngay_dang`, `trang_thai`) VALUES
+(1, 4, 2, 'Con chó này có đẳng cấp không', '2024-10-09', 1),
+(2, 4, 2, 'Shop rep em với', '2024-10-01', 1),
+(3, 6, 4, 'ship hỏa tốc thì bao giờ có', '2024-10-02', 1),
+(4, 6, 4, 'Shop rep em với', '2024-10-01', 1);
 
 -- --------------------------------------------------------
 
@@ -43,13 +53,23 @@ CREATE TABLE `binh_luans` (
 --
 
 CREATE TABLE `chi_tiet_don_hangs` (
-  `id_chi_tiet_don_hang` int NOT NULL,
-  `id_don_hang` int DEFAULT NULL,
-  `id_san_pham` int DEFAULT NULL,
+  `id` int NOT NULL,
+  `don_hang_id` int NOT NULL,
+  `san_pham_id` int NOT NULL,
   `don_gia` decimal(10,2) NOT NULL,
   `so_luong` int NOT NULL,
   `thanh_tien` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chi_tiet_don_hangs`
+--
+
+INSERT INTO `chi_tiet_don_hangs` (`id`, `don_hang_id`, `san_pham_id`, `don_gia`, `so_luong`, `thanh_tien`) VALUES
+(1, 1, 4, 12000000.00, 1, 12000000.00),
+(2, 1, 1, 1000.00, 2, 12345.00),
+(3, 2, 4, 12000000.00, 1, 12000000.00),
+(4, 2, 3, 1000.00, 2, 12345.00);
 
 -- --------------------------------------------------------
 
@@ -58,11 +78,22 @@ CREATE TABLE `chi_tiet_don_hangs` (
 --
 
 CREATE TABLE `chi_tiet_gio_hangs` (
-  `id_chi_tiet_gio_hang` int NOT NULL,
-  `id_gio_hang` int DEFAULT NULL,
-  `id_san_pham` int DEFAULT NULL,
+  `id` int NOT NULL,
+  `gio_hang_id` int NOT NULL,
+  `san_pham_id` int NOT NULL,
   `so_luong` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chi_tiet_gio_hangs`
+--
+
+INSERT INTO `chi_tiet_gio_hangs` (`id`, `gio_hang_id`, `san_pham_id`, `so_luong`) VALUES
+(10, 3, 4, 1),
+(11, 3, 6, 1),
+(12, 3, 8, 2),
+(13, 3, 3, 3),
+(14, 4, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -71,7 +102,7 @@ CREATE TABLE `chi_tiet_gio_hangs` (
 --
 
 CREATE TABLE `chuc_vus` (
-  `id_chuc_vu` int NOT NULL,
+  `id` int NOT NULL,
   `ten_chuc_vu` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -82,7 +113,7 @@ CREATE TABLE `chuc_vus` (
 --
 
 CREATE TABLE `danh_mucs` (
-  `id_danh_muc` int NOT NULL,
+  `id` int NOT NULL,
   `ten_danh_muc` varchar(255) NOT NULL,
   `mo_ta` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -91,7 +122,7 @@ CREATE TABLE `danh_mucs` (
 -- Đang đổ dữ liệu cho bảng `danh_mucs`
 --
 
-INSERT INTO `danh_mucs` (`id_danh_muc`, `ten_danh_muc`, `mo_ta`) VALUES
+INSERT INTO `danh_mucs` (`id`, `ten_danh_muc`, `mo_ta`) VALUES
 (1, 'Chó Con', 'Danh mục Chó Con'),
 (2, 'Mèo Con', 'Danh mục Mèo Con');
 
@@ -102,9 +133,9 @@ INSERT INTO `danh_mucs` (`id_danh_muc`, `ten_danh_muc`, `mo_ta`) VALUES
 --
 
 CREATE TABLE `don_hangs` (
-  `id_don_hang` int NOT NULL,
+  `id` int NOT NULL,
   `ma_don_hang` varchar(50) NOT NULL,
-  `id_tai_khoan` int DEFAULT NULL,
+  `tai_khoan_id` int NOT NULL,
   `ten_nguoi_nhan` varchar(255) NOT NULL,
   `email_nguoi_nhan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `sdt_nguoi_nhan` varchar(15) NOT NULL,
@@ -112,9 +143,17 @@ CREATE TABLE `don_hangs` (
   `ngay_dat` date NOT NULL,
   `tong_tien` decimal(10,2) NOT NULL,
   `ghi_chu` text,
-  `id_phuong_thuc_thanh_toan` int DEFAULT NULL,
-  `id_trang_thai_don_hang` int DEFAULT NULL
+  `phuong_thuc_thanh_toan_id` int NOT NULL,
+  `trang_thai_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `don_hangs`
+--
+
+INSERT INTO `don_hangs` (`id`, `ma_don_hang`, `tai_khoan_id`, `ten_nguoi_nhan`, `email_nguoi_nhan`, `sdt_nguoi_nhan`, `dia_chi_nguoi_nhan`, `ngay_dat`, `tong_tien`, `ghi_chu`, `phuong_thuc_thanh_toan_id`, `trang_thai_id`) VALUES
+(8, 'DH-731346', 4, 'User', 'user@gmail.com', '12345', 'Số 1 trong lòng fan Mu', '2024-10-03', 87530000.00, ' ', 1, 9),
+(18, 'DH-314361', 4, 'Khách 1', 'user@gmail.com', '12345', 'Số 123 tổ 321', '2024-10-03', 38030000.00, 'Múppppp', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -123,9 +162,16 @@ CREATE TABLE `don_hangs` (
 --
 
 CREATE TABLE `gio_hangs` (
-  `id_gio_hang` int NOT NULL,
-  `id_tai_khoan` int DEFAULT NULL
+  `id` int NOT NULL,
+  `tai_khoan_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `gio_hangs`
+--
+
+INSERT INTO `gio_hangs` (`id`, `tai_khoan_id`) VALUES
+(4, 4);
 
 -- --------------------------------------------------------
 
@@ -134,8 +180,8 @@ CREATE TABLE `gio_hangs` (
 --
 
 CREATE TABLE `hinh_anh_san_phams` (
-  `id_hinh_anh` int NOT NULL,
-  `id_san_pham` int DEFAULT NULL,
+  `id` int NOT NULL,
+  `san_pham_id` int NOT NULL,
   `link_hinh_anh` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -143,7 +189,7 @@ CREATE TABLE `hinh_anh_san_phams` (
 -- Đang đổ dữ liệu cho bảng `hinh_anh_san_phams`
 --
 
-INSERT INTO `hinh_anh_san_phams` (`id_hinh_anh`, `id_san_pham`, `link_hinh_anh`) VALUES
+INSERT INTO `hinh_anh_san_phams` (`id`, `san_pham_id`, `link_hinh_anh`) VALUES
 (4, 8, './uploads/1727877258anh-meo-anh-long-dai-01823.jpg'),
 (5, 8, './uploads/1727877258anh-meo-anh-long-dai-049202.jpg'),
 (9, 3, './uploads/1727877150tải xuống.jpg'),
@@ -162,7 +208,7 @@ INSERT INTO `hinh_anh_san_phams` (`id_hinh_anh`, `id_san_pham`, `link_hinh_anh`)
 --
 
 CREATE TABLE `phuong_thuc_thanh_toans` (
-  `id_phuong_thuc_thanh_toan` int NOT NULL,
+  `id` int NOT NULL,
   `ten_phuong_thuc` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -170,7 +216,7 @@ CREATE TABLE `phuong_thuc_thanh_toans` (
 -- Đang đổ dữ liệu cho bảng `phuong_thuc_thanh_toans`
 --
 
-INSERT INTO `phuong_thuc_thanh_toans` (`id_phuong_thuc_thanh_toan`, `ten_phuong_thuc`) VALUES
+INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten_phuong_thuc`) VALUES
 (1, 'COD (Thanh Toán Khi Nhận Hàng)'),
 (2, 'Thanh Toán VNPay');
 
@@ -181,7 +227,7 @@ INSERT INTO `phuong_thuc_thanh_toans` (`id_phuong_thuc_thanh_toan`, `ten_phuong_
 --
 
 CREATE TABLE `san_phams` (
-  `id_san_pham` int NOT NULL,
+  `id` int NOT NULL,
   `ten_san_pham` varchar(255) NOT NULL,
   `gia_san_pham` decimal(10,2) NOT NULL,
   `gia_khuyen_mai` decimal(10,2) DEFAULT NULL,
@@ -190,7 +236,7 @@ CREATE TABLE `san_phams` (
   `luot_xem` int DEFAULT '0',
   `ngay_nhap` date NOT NULL,
   `mo_ta` text,
-  `id_danh_muc` int DEFAULT NULL,
+  `danh_muc_id` int NOT NULL,
   `trang_thai` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -198,12 +244,11 @@ CREATE TABLE `san_phams` (
 -- Đang đổ dữ liệu cho bảng `san_phams`
 --
 
-INSERT INTO `san_phams` (`id_san_pham`, `ten_san_pham`, `gia_san_pham`, `gia_khuyen_mai`, `hinh_anh`, `so_luong`, `luot_xem`, `ngay_nhap`, `mo_ta`, `id_danh_muc`, `trang_thai`) VALUES
+INSERT INTO `san_phams` (`id`, `ten_san_pham`, `gia_san_pham`, `gia_khuyen_mai`, `hinh_anh`, `so_luong`, `luot_xem`, `ngay_nhap`, `mo_ta`, `danh_muc_id`, `trang_thai`) VALUES
 (3, 'Chó Phốc', 2000000.00, 1900000.00, './uploads/1727877156tải xuống.jpg', 1, 0, '2024-09-28', 'Chó Phốc dễ thương', 1, 1),
 (4, 'Mèo Munchkin', 12000000.00, 40000000.00, './uploads/1727877173meo-aln-ma-1227.jpg', 1, 0, '2024-09-29', 'Mèo chân ngắn dễ thương', 2, 1),
 (6, 'Golden Retriever ', 21000000.00, 19000000.00, './uploads/1727877226C2562-C13098-2.jpg', 1, 0, '2024-09-28', 'Golden Retriever là giống chó săn của Scotland có kích thước trung bình. Nó được đặc trưng bởi bản tính hiền lành và tình cảm cùng bộ lông vàng nổi bật.', 1, 1),
-(8, 'Mèo Anh Lông Đài', 5000000.00, 4900000.00, './uploads/1727877267anh-meo-anh-long-dai-049202.jpg', 1, 0, '2024-09-24', 'Nguồn gốc của nòi mèo này là một giống mèo Anh có lông dài. Giống mèo thủy tổ này sau nhiều đời lai với những giống mèo lông dài ngoại nhập khác đã hấp thu nhiều yếu tố di truyền của các nòi mèo lông dài ở Ba Tư và hình thành kiểu hình với bộ lông dài và dày đặc trưng - thậm chí còn dày hơn cả những con mèo Ba Tư nguyên thủy.', 2, 1),
-(99, 'Sản phẩm tạm để tạo khóa ngoại', 100000.00, NULL, NULL, 1, 0, '2025-07-26', 'Tạo để tránh lỗi FOREIGN KEY', 1, 1);
+(8, 'Mèo Anh Lông Đài', 5000000.00, 4900000.00, './uploads/1727877267anh-meo-anh-long-dai-049202.jpg', 1, 0, '2024-09-24', 'Nguồn gốc của nòi mèo này là một giống mèo Anh có lông dài. Giống mèo thủy tổ này sau nhiều đời lai với những giống mèo lông dài ngoại nhập khác đã hấp thu nhiều yếu tố di truyền của các nòi mèo lông dài ở Ba Tư và hình thành kiểu hình với bộ lông dài và dày đặc trưng - thậm chí còn dày hơn cả những con mèo Ba Tư nguyên thủy.', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +257,7 @@ INSERT INTO `san_phams` (`id_san_pham`, `ten_san_pham`, `gia_san_pham`, `gia_khu
 --
 
 CREATE TABLE `tai_khoans` (
-  `id_tai_khoan` int NOT NULL,
+  `id` int NOT NULL,
   `ho_ten` varchar(255) NOT NULL,
   `anh_dai_dien` varchar(255) DEFAULT NULL,
   `ngay_sinh` date DEFAULT NULL,
@@ -221,9 +266,18 @@ CREATE TABLE `tai_khoans` (
   `gioi_tinh` tinyint(1) NOT NULL DEFAULT '1',
   `dia_chi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `mat_khau` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `id_chuc_vu` int DEFAULT NULL,
+  `chuc_vu_id` int DEFAULT NULL,
   `trang_thai` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tai_khoans`
+--
+
+INSERT INTO `tai_khoans` (`id`, `ho_ten`, `anh_dai_dien`, `ngay_sinh`, `email`, `so_dien_thoai`, `gioi_tinh`, `dia_chi`, `mat_khau`, `chuc_vu_id`, `trang_thai`) VALUES
+(2, 'Gia hào', NULL, '2024-09-11', 'hao@gmail.com', '1234567890', 1, 'Số 1 thanh trì', '$2y$10$wmaREKm7ifjpbzRTFyXgmuumy/rve4mWN7r101KzSmGakPXc.h1di', 1, 1),
+(4, 'Khách 1', NULL, '2015-09-15', 'user@gmail.com', '12345', 1, 'Số 123 tổ 321', '$2y$10$wmaREKm7ifjpbzRTFyXgmuumy/rve4mWN7r101KzSmGakPXc.h1di', 2, 1),
+(7, 'Administrator', NULL, NULL, 'admin@gmail.com', NULL, 1, NULL, '$2y$10$.57VOLNpOBqmbG82A0aUluYC3gcTWbIQ8qT6FRywbZvdL4a/2mOji', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -232,7 +286,7 @@ CREATE TABLE `tai_khoans` (
 --
 
 CREATE TABLE `trang_thai_don_hangs` (
-  `id_trang_thai_don_hang` int NOT NULL,
+  `id` int NOT NULL,
   `ten_trang_thai` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -240,7 +294,7 @@ CREATE TABLE `trang_thai_don_hangs` (
 -- Đang đổ dữ liệu cho bảng `trang_thai_don_hangs`
 --
 
-INSERT INTO `trang_thai_don_hangs` (`id_trang_thai_don_hang`, `ten_trang_thai`) VALUES
+INSERT INTO `trang_thai_don_hangs` (`id`, `ten_trang_thai`) VALUES
 (1, 'Chưa Xác Nhận'),
 (2, 'Đã Xác Nhận'),
 (3, 'Chưa Thanh Toán'),
@@ -261,86 +315,74 @@ INSERT INTO `trang_thai_don_hangs` (`id_trang_thai_don_hang`, `ten_trang_thai`) 
 -- Chỉ mục cho bảng `binh_luans`
 --
 ALTER TABLE `binh_luans`
-  ADD PRIMARY KEY (`id_binh_luan`),
-  ADD KEY `fk_binh_luans_id_san_pham` (`id_san_pham`),
-  ADD KEY `fk_binh_luans_id_tai_khoan` (`id_tai_khoan`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
-  ADD PRIMARY KEY (`id_chi_tiet_don_hang`),
-  ADD KEY `fk_chi_tiet_don_hangs_id_don_hang` (`id_don_hang`),
-  ADD KEY `fk_chi_tiet_don_hangs_id_san_pham` (`id_san_pham`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
-  ADD PRIMARY KEY (`id_chi_tiet_gio_hang`),
-  ADD KEY `fk_chi_tiet_gio_hangs_id_gio_hang` (`id_gio_hang`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `chuc_vus`
 --
 ALTER TABLE `chuc_vus`
-  ADD PRIMARY KEY (`id_chuc_vu`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
-  ADD PRIMARY KEY (`id_danh_muc`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `don_hangs`
 --
 ALTER TABLE `don_hangs`
-  ADD PRIMARY KEY (`id_don_hang`),
-  ADD KEY `fk_don_hangs_id_tai_khoan` (`id_tai_khoan`),
-  ADD KEY `fk_don_hangs_id_phuong_thuc_thanh_toan` (`id_phuong_thuc_thanh_toan`),
-  ADD KEY `fk_don_hangs_id_trang_thai` (`id_trang_thai_don_hang`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
-  ADD PRIMARY KEY (`id_gio_hang`),
-  ADD KEY `fk_gio_hangs_id_tai_khoan` (`id_tai_khoan`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `hinh_anh_san_phams`
 --
 ALTER TABLE `hinh_anh_san_phams`
-  ADD PRIMARY KEY (`id_hinh_anh`),
-  ADD KEY `fk_hinh_anh_san_phams_id_san_pham` (`id_san_pham`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `phuong_thuc_thanh_toans`
 --
 ALTER TABLE `phuong_thuc_thanh_toans`
-  ADD PRIMARY KEY (`id_phuong_thuc_thanh_toan`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `san_phams`
 --
 ALTER TABLE `san_phams`
-  ADD PRIMARY KEY (`id_san_pham`),
-  ADD KEY `fk_san_phams_id_danh_muc` (`id_danh_muc`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `tai_khoans`
 --
 ALTER TABLE `tai_khoans`
-  ADD PRIMARY KEY (`id_tai_khoan`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `fk_tai_khoans_id_chuc_vu` (`id_chuc_vu`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Chỉ mục cho bảng `trang_thai_don_hangs`
 --
 ALTER TABLE `trang_thai_don_hangs`
-  ADD PRIMARY KEY (`id_trang_thai_don_hang`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -350,130 +392,73 @@ ALTER TABLE `trang_thai_don_hangs`
 -- AUTO_INCREMENT cho bảng `binh_luans`
 --
 ALTER TABLE `binh_luans`
-  MODIFY `id_binh_luan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
-  MODIFY `id_chi_tiet_don_hang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
-  MODIFY `id_chi_tiet_gio_hang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `chuc_vus`
 --
 ALTER TABLE `chuc_vus`
-  MODIFY `id_chuc_vu` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
-  MODIFY `id_danh_muc` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `don_hangs`
 --
 ALTER TABLE `don_hangs`
-  MODIFY `id_don_hang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
-  MODIFY `id_gio_hang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `hinh_anh_san_phams`
 --
 ALTER TABLE `hinh_anh_san_phams`
-  MODIFY `id_hinh_anh` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `phuong_thuc_thanh_toans`
 --
 ALTER TABLE `phuong_thuc_thanh_toans`
-  MODIFY `id_phuong_thuc_thanh_toan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `san_phams`
 --
 ALTER TABLE `san_phams`
-  MODIFY `id_san_pham` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `tai_khoans`
 --
 ALTER TABLE `tai_khoans`
-  MODIFY `id_tai_khoan` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `trang_thai_don_hangs`
 --
 ALTER TABLE `trang_thai_don_hangs`
-  MODIFY `id_trang_thai_don_hang` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- Ràng buộc đối với các bảng kết xuất
---
-
---
--- Ràng buộc cho bảng `binh_luans`
---
-ALTER TABLE `binh_luans`
-  ADD CONSTRAINT `fk_binh_luans_id_san_pham` FOREIGN KEY (`id_san_pham`) REFERENCES `san_phams` (`id_san_pham`),
-  ADD CONSTRAINT `fk_binh_luans_id_tai_khoan` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoans` (`id_tai_khoan`);
-
---
--- Ràng buộc cho bảng `chi_tiet_don_hangs`
---
-ALTER TABLE `chi_tiet_don_hangs`
-  ADD CONSTRAINT `fk_chi_tiet_don_hangs_id_don_hang` FOREIGN KEY (`id_don_hang`) REFERENCES `don_hangs` (`id_don_hang`),
-  ADD CONSTRAINT `fk_chi_tiet_don_hangs_id_san_pham` FOREIGN KEY (`id_san_pham`) REFERENCES `san_phams` (`id_san_pham`),
-  ADD CONSTRAINT `fk_ctdh_san_pham` FOREIGN KEY (`id_san_pham`) REFERENCES `san_phams` (`id_san_pham`);
-
---
--- Ràng buộc cho bảng `chi_tiet_gio_hangs`
---
-ALTER TABLE `chi_tiet_gio_hangs`
-  ADD CONSTRAINT `fk_chi_tiet_gio_hangs_id_gio_hang` FOREIGN KEY (`id_gio_hang`) REFERENCES `gio_hangs` (`id_gio_hang`);
-
---
--- Ràng buộc cho bảng `don_hangs`
---
-ALTER TABLE `don_hangs`
-  ADD CONSTRAINT `fk_don_hangs_id_phuong_thuc_thanh_toan` FOREIGN KEY (`id_phuong_thuc_thanh_toan`) REFERENCES `phuong_thuc_thanh_toans` (`id_phuong_thuc_thanh_toan`),
-  ADD CONSTRAINT `fk_don_hangs_id_tai_khoan` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoans` (`id_tai_khoan`),
-  ADD CONSTRAINT `fk_don_hangs_id_trang_thai` FOREIGN KEY (`id_trang_thai_don_hang`) REFERENCES `trang_thai_don_hangs` (`id_trang_thai_don_hang`);
-
---
--- Ràng buộc cho bảng `gio_hangs`
---
-ALTER TABLE `gio_hangs`
-  ADD CONSTRAINT `fk_gio_hangs_id_tai_khoan` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoans` (`id_tai_khoan`);
-
---
--- Ràng buộc cho bảng `hinh_anh_san_phams`
---
-ALTER TABLE `hinh_anh_san_phams`
-  ADD CONSTRAINT `fk_hinh_anh_san_phams_id_san_pham` FOREIGN KEY (`id_san_pham`) REFERENCES `san_phams` (`id_san_pham`);
-
---
--- Ràng buộc cho bảng `san_phams`
---
-ALTER TABLE `san_phams`
-  ADD CONSTRAINT `fk_san_phams_id_danh_muc` FOREIGN KEY (`id_danh_muc`) REFERENCES `danh_mucs` (`id_danh_muc`);
-
---
--- Ràng buộc cho bảng `tai_khoans`
---
-ALTER TABLE `tai_khoans`
-  ADD CONSTRAINT `fk_tai_khoans_id_chuc_vu` FOREIGN KEY (`id_chuc_vu`) REFERENCES `chuc_vus` (`id_chuc_vu`);
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
