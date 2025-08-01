@@ -190,7 +190,7 @@
 </div>
 <!-- /.content-wrapper -->
 <!-- footer -->
-<?php include '.views/layout/footer.php'; ?>
+<?php include './views/layout/footer.php'; ?>
 <!-- end footer -->
 <!-- page specific script -->
 <script>
