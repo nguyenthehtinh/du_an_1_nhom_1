@@ -7,6 +7,7 @@
 define('BASE_URL', 'http://localhost:8080/web-Thu-Cung-main/'); // Đường vào client
 define('BASE_URL_ADMIN', 'http://localhost:8080/Web-Thu-Cung-main/admin/'); // Đường vào admin
 
+
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
 define('DB_USERNAME', 'root');
