@@ -3,8 +3,10 @@
 // Biến môi trường, dùng chung toàn hệ thống
 // Khai báo dưới dạng HẰNG SỐ để không phải dùng $GLOBALS
 
-define('BASE_URL','http://localhost/Web-Thu-Cung-main/'); // Đường vào client
-define('BASE_URL_ADMIN', 'http://localhost/Web-Thu-Cung-main/admin/'); // Đường vào admin
+
+
+define('BASE_URL', 'http://localhost/Web-Thu-cung-main'); // Đường vào client
+define('BASE_URL_ADMIN', 'http://localhost/Web-Thu-cung-main/admin/'); // Đường vào admin
 
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
