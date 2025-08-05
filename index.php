@@ -30,4 +30,23 @@ match ($act) {
     'san-pham' => (new HomeController())->sanPham(),
     // 'post-binh-luan-san-pham' => (new HomeController())->postBinhLuan(),
 
+    // auth
+    'login' => (new HomeController())->formLogin(),
+    'check-login' => (new HomeController())->postLogin(),
+    'register' => (new HomeController())->formRegister(),
+    'check-register' => (new HomeController())->postRegister(),
+    'logout' => (new HomeController())->logout(),
+    // gio hang
+    'gio-hang' => (new HomeController())->gioHang(),
+    'them-gio-hang' => (new HomeController())->addGioHang(),
+    'xoa-gio-hang' => (new HomeController())->deleteSanPhamFormGioHang(),
+    'cap-nhat-gio-hang' => (new HomeController())->updateGioHang(),
+    // don hang
+    'thanh-toan' => (new HomeController())->thanhToan(),
+    'xu-ly-thanh-toan' => (new HomeController())->postThanhToan(),
+    'huy-don-hang' => (new HomeController())->huyDonHang(),
+    'lien-he' => (new HomeController())->lienHe(),
+    'gioi-thieu' => (new HomeController())->gioiThieu(),
+    'tai-khoan' => (new HomeController())->taiKhoan(),
+    'chi-tiet-don-hang' => (new HomeController())->chiTietDonHang(),
 };
