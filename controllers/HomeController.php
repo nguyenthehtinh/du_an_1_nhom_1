@@ -349,27 +349,27 @@ class HomeController
         }
     }
 
-    // public function deleteSanPhamFromGioHang()
-    // {
-    //     // Lấy id của giỏ hàng và sản phẩm từ URL
-    //     $id_gio_hang = $_GET['id_gio_hang'] ?? null;
-    //     $san_pham_id = $_GET['san_pham_id'] ?? null;
+    public function deleteSanPhamFormGioHang()
+    {
+        // Lấy id của giỏ hàng và sản phẩm từ URL
+        $id_gio_hang = $_GET['id_gio_hang'] ?? null;
+        $san_pham_id = $_GET['san_pham_id'] ?? null;
 
-    //     // Kiểm tra id_gio_hang và san_pham_id có tồn tại và hợp lệ
-    //     if ($id_gio_hang && $san_pham_id) {
-    //         // Lấy chi tiết giỏ hàng từ id
-    //         $gio_hang = $this->modelGioHang->getDetailGioHangFromId($id_gio_hang);
+        // Kiểm tra id_gio_hang và san_pham_id có tồn tại và hợp lệ
+        if ($id_gio_hang && $san_pham_id) {
+            // Lấy chi tiết giỏ hàng từ id
+            $gio_hang = $this->modelGioHang->getDetailGioHangFromId($id_gio_hang);
 
-    //         if ($gio_hang) {
-    //             // Gọi hàm xóa sản phẩm trong giỏ hàng
-    //             $this->modelGioHang->destroySanPhamInGioHang($san_pham_id);
-    //         }
-    //     }
+            if ($gio_hang) {
+                // Gọi hàm xóa sản phẩm trong giỏ hàng
+                $this->modelGioHang->destroySanPhamInGioHang($san_pham_id);
+            }
+        }
 
-    //     // Điều hướng về trang giỏ hàng
-    //     header("Location: " . BASE_URL . '?act=gio-hang');
-    //     exit();
-    // }
+        // Điều hướng về trang giỏ hàng
+        header("Location: " . BASE_URL . '?act=gio-hang');
+        exit();
+    }
 
     public function thanhToan()
     {
