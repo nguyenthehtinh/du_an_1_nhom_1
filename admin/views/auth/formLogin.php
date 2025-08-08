@@ -25,7 +25,9 @@
             </div>
             <div class="card-body">
                 <?php if (isset($_SESSION['error'])) { ?>
-                    <p class="text-danger login-box-msg"><?= $_SESSION['error'] ?></p>
+                    <?php $errorMessage = is_array($_SESSION['error']) ? implode('<br>', $_SESSION['error']) : $_SESSION['error']; ?>
+                    <p class="text-danger login-box-msg"><?= $errorMessage ?></p>
+                    <?php unset($_SESSION['error']); ?>
                 <?php } else { ?>
                     <p class="login-box-msg">Vui lòng đăng nhập</p>
                 <?php } ?>
