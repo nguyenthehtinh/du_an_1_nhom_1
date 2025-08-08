@@ -25,6 +25,23 @@
     <div class="cart-main-wrapper section-padding">
         <div class="container">
             <div class="section-bg-color">
+                <!-- Thông báo -->
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?= $_SESSION['success'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?= $_SESSION['error'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <!-- Cart Table Area -->
@@ -43,12 +60,18 @@
                                 <tbody>
                                     <?php
                                     $tongGioHang = 0;
-                                    foreach ($chi_tiet_gio_hang as $key => $sanPham):
-
-                                        ?>
+                                    if (empty($chi_tiet_gio_hang)): ?>
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                <p>Giỏ hàng của bạn đang trống.</p>
+                                                <a href="<?= BASE_URL . '?act=san-pham' ?>" class="btn btn-primary">Tiếp tục mua sắm</a>
+                                            </td>
+                                        </tr>
+                                    <?php else:
+                                        foreach ($chi_tiet_gio_hang as $key => $sanPham): ?>
                                         <tr>
                                             <td class="pro-thumbnail"><a href="#"><img class="img-fluid"
-                                                        src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="Product" /></a>
+                                                        src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" alt="Product" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'" /></a>
                                             </td>
                                             <td class="pro-title"><a href="#"><?= $sanPham['ten_san_pham'] ?></a>
                                             </td>
@@ -78,16 +101,17 @@
                                             echo fomatPrice($tong_tien) . 'đ';
                                             ?></span></td>
                                             <td class="pro-remove"><a
-                                                    href="<?= BASE_URL . '?act=xoa-gio-hang&id_gio_hang=' . $gio_hang['id'] ?>"
-                                                    onclick="return confirm('Bạn có đồng ý xóa hay không')"><i
+                                                    href="<?= BASE_URL . '?act=xoa-gio-hang&id_gio_hang=' . $gio_hang['id'] . '&san_pham_id=' . $sanPham['san_pham_id'] ?>"
+                                                    onclick="return confirm('Bạn có đồng ý xóa sản phẩm này khỏi giỏ hàng không?')"><i
                                                         class="fa fa-trash-o"></i></a></td>
                                         </tr>
-                                    <?php endforeach ?>
+                                    <?php endforeach; endif; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                <?php if (!empty($chi_tiet_gio_hang)): ?>
                 <div class="row">
                     <div class="col-lg-5 ml-auto">
                         <!-- Cart Calculation Area -->
@@ -116,6 +140,7 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

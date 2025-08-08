@@ -33,8 +33,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-4">
-                    <img src="<?= BASE_URL . $khachHang['anh_dai_dien'] ?>" style="width: 70%;" alt=""
-                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>/uploads/149071.png'">
+                    <img src="<?= BASE_URL . ltrim($khachHang['anh_dai_dien'], './') ?>" style="width: 70%;" alt=""
+                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/149071.png'">
                 </div>
                 <div class="col-8">
                     <div class="container">

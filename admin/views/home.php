@@ -149,9 +149,8 @@
                             <tbody>
                                 <?php foreach ($listSanPham as $key => $sanpham): ?>
                                     <tr>
-                                        <td><img src="<?= BASE_URL . $sanpham['hinh_anh'] ?>" style="width: 50px;" alt=""
-                                                onerror="this.onerror=null; this.src='<?= BASE_URL ?>/uploads/ao.jpg'">
-                                        </td>
+                                        <td><img src="<?= BASE_URL . ltrim($sanpham['hinh_anh'], './') ?>" style="width: 50px;" alt=""
+                                                onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'"></td>
 
                                         <td><?= $sanpham['ten_san_pham'] ?></td>
 

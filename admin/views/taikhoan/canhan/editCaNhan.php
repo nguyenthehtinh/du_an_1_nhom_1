@@ -31,9 +31,9 @@
 
                 <div class="col-md-3">
                     <div class="text-center">
-                        <img src="<?= BASE_URL . $thongTin['anh_dai_dien']; ?>" class="avatar img-circle"
+                        <img src="<?= BASE_URL . ltrim($thongTin['anh_dai_dien'], './'); ?>" class="avatar img-circle"
                             alt="<?= $thongTin['ho_ten'] ?>" style="width: 180px;"
-                            onerror="this.onerror=null; this.src='<?= BASE_URL ?>/uploads/149071.png'">
+                            onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/149071.png'">
                         <h6 class="mt-2">Họ Tên: <?= $thongTin['ho_ten'] ?></h6>
                         <h6 class="mt-2">Chức Vụ: <?= $thongTin['chuc_vu_id'] ?></h6>
                     </div>

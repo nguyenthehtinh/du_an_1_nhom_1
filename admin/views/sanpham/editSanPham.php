@@ -141,8 +141,8 @@
                                         <?php foreach ($listAnhSanPham as $key => $value): ?>
                                             <tr id="faqs-row-<?= $key ?>">
                                                 <input type="hidden" name="current_img_ids[]" value="<?= $value['id'] ?>">
-                                                <td><img src="<?= BASE_URL . $value['link_hinh_anh'] ?>"
-                                                        style="width: 50px; height: 50px;" alt=""></td>
+                                                <td><img src="<?= BASE_URL . ltrim($value['link_hinh_anh'], './') ?>"
+                                                        style="width: 50px; height: 50px;" alt="" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'"></td>
                                                 <td><input type="file" name="img_array[]" class="form-control"></td>
                                                 <td class="mt-10"><button class="badge badge-danger" type="button"
                                                         onclick="removeRow(<?= $key ?>,<?= $value['id'] ?>)"><i

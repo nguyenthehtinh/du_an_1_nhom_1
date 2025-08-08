@@ -37,13 +37,13 @@
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="col-12">
-                            <img style="width:550px; height:500px;" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>"
-                                class="product-image" alt="Product Image">
+                            <img style="width:550px; height:500px;" src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>"
+                                class="product-image" alt="Product Image" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                         </div>
                         <div class="col-12 product-image-thumbs">
                             <?php foreach ($listAnhSanPham as $key => $anhSP): ?>
                                 <div class="product-image-thumb <?= $anhSP[$key] == 0 ? 'active' : ''; ?>"><img
-                                        src="<?= BASE_URL . $anhSP['link_hinh_anh'] ?>" alt="Product Image"></div>
+                                        src="<?= BASE_URL . ltrim($anhSP['link_hinh_anh'], './') ?>" alt="Product Image" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'"></div>
                             <?php endforeach; ?>
                         </div>
                     </div>

@@ -145,9 +145,13 @@
                                                 <a
                                                     href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
                                                     <img class="pri-img" style="object-fit: cover; height: 350px;"
-                                                        src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                                        src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" 
+                                                        alt="product"
+                                                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                                     <img class="sec-img" style="object-fit: cover; height: 350px;"
-                                                        src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                                        src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" 
+                                                        alt="product"
+                                                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                                 </a>
                                                 <div class="product-badge">
                                                     <?php
@@ -228,9 +232,13 @@
                                                 <a
                                                     href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
                                                     <img class="pri-img" style="object-fit: cover; height: 350px;"
-                                                        src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                                        src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" 
+                                                        alt="product"
+                                                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                                     <img class="sec-img" style="object-fit: cover; height: 350px;"
-                                                        src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                                        src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" 
+                                                        alt="product"
+                                                        onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                                 </a>
                                                 <div class="product-badge">
                                                     <?php

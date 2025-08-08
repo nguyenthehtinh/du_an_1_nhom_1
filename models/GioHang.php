@@ -88,23 +88,23 @@ class GioHang
         }
     }
 
-    // public function destroySanPhamInGioHang($san_pham_id)
-    // {
-    //     try {
-    //         $sql = "DELETE FROM chi_tiet_gio_hangs WHERE san_pham_id = :san_pham_id";
+    public function destroySanPhamInGioHang($gio_hang_id, $san_pham_id)
+    {
+        try {
+            $sql = "DELETE FROM chi_tiet_gio_hangs WHERE gio_hang_id = :gio_hang_id AND san_pham_id = :san_pham_id";
 
-    //         $stmt = $this->conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
 
-    //         if ($stmt->execute([':san_pham_id' => $san_pham_id])) {
-    //             return true;  // Thành công
-    //         }
+            if ($stmt->execute([':gio_hang_id' => $gio_hang_id, ':san_pham_id' => $san_pham_id])) {
+                return true;  // Thành công
+            }
 
-    //         return false;  // Thất bại
-    //     } catch (\Exception $e) {
-    //         // Thay echo bằng log lỗi (có thể dùng monolog hoặc hệ thống log khác)
-    //         echo 'Lỗi' . $e->getMessage();
-    //     }
-    // }
+            return false;  // Thất bại
+        } catch (\Exception $e) {
+            echo 'Lỗi' . $e->getMessage();
+            return false;
+        }
+    }
 
     public function deleteAllGioHang($id)
     {

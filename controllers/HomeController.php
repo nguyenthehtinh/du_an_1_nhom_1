@@ -357,13 +357,16 @@ class HomeController
 
         // Kiểm tra id_gio_hang và san_pham_id có tồn tại và hợp lệ
         if ($id_gio_hang && $san_pham_id) {
-            // Lấy chi tiết giỏ hàng từ id
-            $gio_hang = $this->modelGioHang->getDetailGioHangFromId($id_gio_hang);
-
-            if ($gio_hang) {
-                // Gọi hàm xóa sản phẩm trong giỏ hàng
-                $this->modelGioHang->destroySanPhamInGioHang($san_pham_id);
+            // Gọi hàm xóa sản phẩm trong giỏ hàng
+            $result = $this->modelGioHang->destroySanPhamInGioHang($id_gio_hang, $san_pham_id);
+            
+            if ($result) {
+                $_SESSION['success'] = "Đã xóa sản phẩm khỏi giỏ hàng thành công!";
+            } else {
+                $_SESSION['error'] = "Không thể xóa sản phẩm khỏi giỏ hàng!";
             }
+        } else {
+            $_SESSION['error'] = "Thông tin không hợp lệ!";
         }
 
         // Điều hướng về trang giỏ hàng
@@ -396,7 +399,7 @@ class HomeController
             header("Location:" . BASE_URL . '?act=login');
         }
     }
-    public function postthanhToan($id)
+    public function postthanhToan()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -407,7 +410,7 @@ class HomeController
             $ghi_chu = $_POST['ghi_chu'];
             $tong_tien = $_POST['tong_tien'];
             $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'];
-            $ngay_dat = date('Y-m-d ');
+            $ngay_dat = date('Y-m-d');
             $trang_thai_id = 1;
             $errors = [];
 
@@ -445,6 +448,7 @@ class HomeController
             $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
             $tai_khoan_id = $user['id'];
             $ma_don_hang = 'DH-' . rand(1000, 999999);
+            
             //Thêm Thông tin vào đb
             $donHangThanhToan = $this->modelDonHang->addDonHang(
                 $tai_khoan_id,
@@ -459,11 +463,31 @@ class HomeController
                 $ma_don_hang,
                 $trang_thai_id
             );
+            
             $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
             if ($donHangThanhToan && $gioHang) {
-                $this->modelGioHang->deleteAllGioHang($id);
+                // Lấy chi tiết giỏ hàng
+                $chi_tiet_gio_hang = $this->modelGioHang->getDetailGioHangFromId($gioHang['id']);
+                
+                // Lưu chi tiết đơn hàng
+                foreach ($chi_tiet_gio_hang as $item) {
+                    $don_gia = $item['gia_khuyen_mai'] ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
+                    $thanh_tien = $don_gia * $item['so_luong'];
+                    
+                    $this->modelDonHang->addChiTietDonHang(
+                        $donHangThanhToan,
+                        $item['san_pham_id'],
+                        $don_gia,
+                        $item['so_luong'],
+                        $thanh_tien
+                    );
+                }
+                
+                // Xóa giỏ hàng sau khi đặt hàng thành công
+                $this->modelGioHang->deleteAllGioHang($gioHang['id']);
             }
 
+            $_SESSION['success'] = "Đặt hàng thành công! Mã đơn hàng: " . $ma_don_hang;
             header("Location:" . BASE_URL);
             exit();
         }

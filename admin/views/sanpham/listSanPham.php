@@ -52,7 +52,7 @@
                                         <tr>
                                             <td><?= $key + 1  ?></td>
                                             <td><?= $sanpham['ten_san_pham']  ?></td>
-                                            <td><img src="<?= BASE_URL . $sanpham['hinh_anh']  ?>" style="width: 100px;" alt="" onerror="this.onerror=null; this.src='<?= BASE_URL ?>/uploads/ao.jpg'"></td>
+                                            <td><img src="<?= BASE_URL . ltrim($sanpham['hinh_anh'], './')  ?>" style="width: 100px;" alt="" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'"></td>
                                             <td><?= $sanpham['gia_san_pham']  ?></td>
                                             <td><?= $sanpham['so_luong']  ?></td>
                                             <td><?= $sanpham['ten_danh_muc']  ?></td>

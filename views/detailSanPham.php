@@ -35,16 +35,18 @@
                                 <div class="product-large-slider">
                                     <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                         <div class="pro-large-img img-zoom">
-                                            <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
-                                                alt="product-details" />
+                                            <img src="<?= BASE_URL . ltrim($anhSanPham['link_hinh_anh'], './') ?>"
+                                                alt="product-details" 
+                                                onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'" />
                                         </div>
                                     <?php endforeach ?>
                                 </div>
                                 <div class="pro-nav slick-row-10 slick-arrow-style">
                                     <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
                                         <div class="pro-nav-thumb">
-                                            <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>"
-                                                alt="product-details" />
+                                            <img src="<?= BASE_URL . ltrim($anhSanPham['link_hinh_anh'], './') ?>"
+                                                alt="product-details" 
+                                                onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'" />
                                         </div>
                                     <?php endforeach ?>
                                 </div>
@@ -177,16 +179,10 @@
                             <div class="product-item">
                                 <figure class="product-thumb">
                                     <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
-
-
                                         <img class="pri-img" style="object-fit: cover; height: 350px;"
-                                            src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                            src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" alt="product" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                         <img class="sec-img" style="object-fit: cover; height: 350px;"
-                                            src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
-
-
-                                        <img class="pri-img" style="object-fit: cover; height: 350px;" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
-                                        <img class="sec-img" style="object-fit: cover; height: 350px;" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                            src="<?= BASE_URL . ltrim($sanPham['hinh_anh'], './') ?>" alt="product" onerror="this.onerror=null; this.src='<?= BASE_URL ?>uploads/ao.jpg'">
                                     </a>
                                     <div class="product-badge">
                                         <?php
