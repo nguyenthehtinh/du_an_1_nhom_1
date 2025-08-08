@@ -16,8 +16,8 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Quản Danh Sách Đơn Hàng</h1>
+                <div class="col-sm-12 text-center">
+                    <h1 class="m-0">Quản Danh Sách Đơn Hàng</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -42,7 +42,7 @@
                                         <th>Ngày Đặt</th>
                                         <th>Tổng tiền</th>
                                         <th>Trạng Thái</th>
-                                        <th>Thao Tác</th>
+                                        <th class="text-center">Thao Tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,19 +55,12 @@
                                             <td><?= $donHang['ngay_dat'] ?></td>
                                             <td><?= $donHang['tong_tien'] ?></td>
                                             <td><?= $donHang['ten_trang_thai'] ?></td>
-                                            <td>
-
-                                                <a class="btn btn-primary"
-                                                    href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                    <i class="nav-icon fas fa-solid fa-eye ml-full"></i>
+                                            <td class="text-center">
 
                                                 <a class="btn btn-primary" href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&don_hang_id=' . $donHang['id'] ?>">
                                                     <i class="nav-icon fas fa-solid fa-eye"></i>
                                                 </a>
-                                                <a class="btn btn-warning" href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don_hang=' . $donHang['id'] ?>">
-                                                    <i class="nav-icon fas fa-solid fa-wrench"></i>
-
-                                                </a>
+                                                
 
                                             </td>
                                         </tr>
@@ -82,7 +75,7 @@
                                         <th>Ngày Đặt</th>
                                         <th>Tổng tiền</th>
                                         <th>Trạng Thái</th>
-                                        <th>Thao Tác</th>
+                                        <th class="text-center">Thao Tác</th>
                                     </tr>
                                 </tfoot>
                             </table>
