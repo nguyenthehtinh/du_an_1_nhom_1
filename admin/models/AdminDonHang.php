@@ -68,10 +68,14 @@ class AdminDonHang
     public function getListSpDonHang($id)
     {
         try {
-            $sql = "SELECT san_phams.ten_san_pham
-            FROM chi_tiet_don_hangs
-            INNER JOIN san_phams ON chi_tiet_don_hangs.don_hang_id = san_phams.id
-            WHERE chi_tiet_don_hangs.don_hang_id = :id";
+            $sql = "SELECT 
+                        san_phams.ten_san_pham,
+                        chi_tiet_don_hangs.don_gia AS don_gia,
+                        chi_tiet_don_hangs.so_luong AS so_luong,
+                        (chi_tiet_don_hangs.don_gia * chi_tiet_don_hangs.so_luong) AS thanh_tien
+                    FROM chi_tiet_don_hangs
+                    INNER JOIN san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id
+                    WHERE chi_tiet_don_hangs.don_hang_id = :id";
 
 
             $stmt = $this->conn->prepare($sql);

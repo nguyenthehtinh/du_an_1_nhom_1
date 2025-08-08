@@ -24,9 +24,8 @@
                                     <select name="trang_thai_id" class="form-control">
                                         <?php foreach ($listTrangThaiDonHang as $trangThai): ?>
                                             <option value="<?= $trangThai['id'] ?>" 
-                                                <?= $donHang['trang_thai_id'] > $trangThai['id'] || in_array($donHang['trang_thai_id'],[9,10,11]) ? 'hidden' : '' ?>>
-                                                <?= $trangThai['id'] == $donHang['trang_thai_id'] ? 'selected' : ''?>
-                                                <option value="<?= $trangThai['id'] ?>" <?= $trangThai['id'] == $donHang['trang_thai_id'] ? 'selected' : '' ?> <?= $donHang['trang_thai_id']>$trangThai['id'] || in_array($donHang['trang_thai_id'], [9,10,11]) ? 'hidden' : ''?>>
+                                                <?= ($trangThai['id'] == $donHang['trang_thai_id']) ? 'selected' : '' ?>
+                                                <?= ($donHang['trang_thai_id'] > $trangThai['id'] || in_array($donHang['trang_thai_id'], [9,10,11])) ? 'hidden' : '' ?>>
                                                 <?= $trangThai['ten_trang_thai'] ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -34,7 +33,6 @@
                                 </div>
                                 <div>
                                     <button type="submit" class="btn btn-secondary" style="margin-left:20px"> Cập Nhật</button>
-                                    <button type="submit" class="btn btn-secondary"> Cập Nhật</button>
                                 </div>    
                             </div>
                         </form>
@@ -131,9 +129,9 @@
                                 </thead>
                                 <tbody>
                                     <?php $tong_tien = 0; ?>
-                                    <?php foreach ($listChiTietDonHang as $chiTiet) : ?>
+                                    <?php foreach (($sanPhamDonHang ?? []) as $index => $sanPham) : ?>
                                         <tr>
-                                            <td><?= $key + 1 ?></td>
+                                            <td><?= $index + 1 ?></td>
                                             <td><?= $sanPham['ten_san_pham'] ?></td>
                                             <td><?= $sanPham['don_gia'] ?></td>
                                             <td><?= $sanPham['so_luong'] ?></td>
