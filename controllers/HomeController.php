@@ -399,7 +399,7 @@ class HomeController
             header("Location:" . BASE_URL . '?act=login');
         }
     }
-    public function postthanhToan()
+    public function postThanhToan()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
