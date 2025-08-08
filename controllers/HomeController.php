@@ -195,7 +195,21 @@ class HomeController
         }
     }
 
+    public function logout()
+    {
+        // Xóa các session của người dùng client
+        unset($_SESSION['user_client']);
+        unset($_SESSION['tai_khoan_id']);
+        unset($_SESSION['errors']);
+        unset($_SESSION['old_data']);
 
+        // Thông báo
+        $_SESSION['success'] = 'Bạn đã đăng xuất.';
+
+        // Chuyển hướng về trang chủ
+        header('Location: ' . BASE_URL);
+        exit();
+    }
 
 
 
