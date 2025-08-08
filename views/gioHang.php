@@ -35,8 +35,9 @@
                 <?php endif; ?>
                 
                 <?php if (isset($_SESSION['error'])): ?>
+                    <?php $cartError = is_array($_SESSION['error']) ? implode('<br>', $_SESSION['error']) : $_SESSION['error']; ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <?= $_SESSION['error'] ?>
+                        <?= $cartError ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <?php unset($_SESSION['error']); ?>
