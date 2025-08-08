@@ -4,8 +4,8 @@
 // Khai báo dưới dạng HẰNG SỐ để không phải dùng $GLOBALS
 
 
-define('BASE_URL', 'http://localhost/curso/Web-Thu-Cung-main/'); // Đường vào client
-define('BASE_URL_ADMIN', 'http://localhost/curso/Web-Thu-Cung-main/admin/'); // Đường vào admin
+define('BASE_URL', 'http://localhost/Web-Thu-Cung-main/'); // Đường vào client
+define('BASE_URL_ADMIN', 'http://localhost/Web-Thu-Cung-main/admin/'); // Đường vào admin
 
 
 define('DB_HOST', 'localhost');
