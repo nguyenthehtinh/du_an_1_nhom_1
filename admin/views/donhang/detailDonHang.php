@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <h4>
-                                    <i class="fas fa-cat"></i> Shop Thú Cưng Anii - ninhna.
+                                    <i class="fas fa-cat"></i> Shop Thú Cưng Nhóm 1 - Dự án 1.
                                     <small class="float-right">Ngày Đặt:
                                         <?=
                                         fomatDate($donHang['ngay_dat']);
