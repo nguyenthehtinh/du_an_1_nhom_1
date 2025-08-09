@@ -109,11 +109,16 @@ class GioHang
     public function deleteAllGioHang($id)
     {
         try {
-            $sql = "DELETE gio_hangs where id = :id";
+            // Xóa chi tiết giỏ hàng trước để đảm bảo toàn vẹn dữ liệu
+            $sqlDelDetails = "DELETE FROM chi_tiet_gio_hangs WHERE gio_hang_id = :id";
+            $stmtDetails = $this->conn->prepare($sqlDelDetails);
+            $stmtDetails->execute([':id' => $id]);
 
-            $stmt = $this->conn->prepare($sql);
+            // Xóa giỏ hàng
+            $sqlDelCart = "DELETE FROM gio_hangs WHERE id = :id";
+            $stmtCart = $this->conn->prepare($sqlDelCart);
+            $stmtCart->execute([':id' => $id]);
 
-            $stmt->execute([':id' => $id]);
             return true;
         } catch (\Exception $e) {
             echo 'Lỗi' . $e->getMessage();

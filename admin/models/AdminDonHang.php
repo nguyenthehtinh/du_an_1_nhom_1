@@ -69,6 +69,7 @@ class AdminDonHang
     {
         try {
             $sql = "SELECT 
+                        san_phams.id AS san_pham_id,
                         san_phams.ten_san_pham,
                         chi_tiet_don_hangs.don_gia AS don_gia,
                         chi_tiet_don_hangs.so_luong AS so_luong,

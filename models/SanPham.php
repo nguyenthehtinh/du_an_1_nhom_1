@@ -180,4 +180,23 @@ class SanPham
             return false;
         }
     }
+
+    public function increaseQuantity($san_pham_id, $so_luong): bool
+    {
+        try {
+            $sql = "UPDATE san_phams
+                    SET so_luong = so_luong + :so_luong
+                    WHERE id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':so_luong' => $so_luong,
+                ':id' => $san_pham_id,
+            ]);
+            return true;
+        } catch (Exception $e) {
+            echo "Lỗi " . $e->getMessage();
+            return false;
+        }
+    }
 }

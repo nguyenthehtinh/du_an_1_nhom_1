@@ -69,6 +69,18 @@ class AdminDonHangController
 
             // Nếu không có lỗi thì tiến hành cập nhật
             if (empty($error)) {
+                // Nếu chuyển trạng thái sang Hủy (11) thì hoàn lại tồn kho
+                if ((int)$trang_thai_id === 11) {
+                    // Lấy chi tiết đơn hàng
+                    $chiTietList = $this->modelDonHang->getListSpDonHang($don_hang_id);
+                    // Tăng lại số lượng tồn cho từng sản phẩm
+                    $sanPhamClientModel = new SanPham();
+                    foreach ($chiTietList as $row) {
+                        // Tăng lại tồn kho bằng số lượng đã đặt
+                        $sanPhamClientModel->increaseQuantity((int)$row['san_pham_id'], (int)$row['so_luong']);
+                    }
+                }
+
                 $this->modelDonHang->updateDonHang($don_hang_id, $trang_thai_id);
                 header("Location: " . BASE_URL_ADMIN . "?act=don-hang");
                 exit();
