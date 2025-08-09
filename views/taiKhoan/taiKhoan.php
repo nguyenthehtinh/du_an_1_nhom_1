@@ -12,17 +12,17 @@
                         <!-- My Account Tab Menu Start -->
                         <div class="row">
                             <div class="col-lg-3 col-md-4">
+                                <?php $activeTab = $_GET['tab'] ?? 'orders'; ?>
                                 <div class="myaccount-tab-menu nav" role="tablist">
-
-                                    <a href="#orders" data-bs-toggle="tab"><i class="fa fa-cart-arrow-down"></i>
+                                    <a href="#orders" data-bs-toggle="tab" class="<?= $activeTab === 'orders' ? 'active' : '' ?>"><i class="fa fa-cart-arrow-down"></i>
                                         Đơn hàng</a>
 
-                                    <a href="#payment-method" data-bs-toggle="tab"><i class="fa fa-credit-card"></i>
+                                    <a href="#payment-method" data-bs-toggle="tab" class="<?= $activeTab === 'payment-method' ? 'active' : '' ?>"><i class="fa fa-credit-card"></i>
                                         Payment
                                         Method</a>
-                                    <a href="#address-edit" data-bs-toggle="tab"><i class="fa fa-map-marker"></i>
+                                    <a href="#address-edit" data-bs-toggle="tab" class="<?= $activeTab === 'address-edit' ? 'active' : '' ?>"><i class="fa fa-map-marker"></i>
                                         address</a>
-                                    <a href="#account-info" data-bs-toggle="tab"><i class="fa fa-user"></i> Account
+                                    <a href="#account-info" data-bs-toggle="tab" class="<?= $activeTab === 'account-info' ? 'active' : '' ?>"><i class="fa fa-user"></i> Account
                                         Details</a>
                                     <a href="<?= BASE_URL . "?act=logout" ?>"><i class="fa fa-sign-out"></i> Logout</a>
                                 </div>
@@ -31,13 +31,13 @@
 
                             <!-- My Account Tab Content Start -->
                             <div class="col-lg-9 col-md-8">
-                                <div class="tab-content" id="myaccountContent">
+                                    <div class="tab-content" id="myaccountContent">
                                     <!-- Single Tab Content Start -->
 
                                     <!-- Single Tab Content End -->
 
                                     <!-- Single Tab Content Start -->
-                                    <div class="tab-pane fade" id="orders" role="tabpanel">
+                                    <div class="tab-pane fade <?= $activeTab === 'orders' ? 'show active' : '' ?>" id="orders" role="tabpanel">
                                         <div class="myaccount-content">
                                             <h5>Orders</h5>
                                             <div class="myaccount-table table-responsive text-center">

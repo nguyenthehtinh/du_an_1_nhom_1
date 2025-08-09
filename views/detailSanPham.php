@@ -75,8 +75,13 @@
                                         <?php } ?>
                                     </div>
                                     <div class="availability">
-                                        <i class="fa fa-check-circle"></i>
-                                        <span><?= $sanPham['so_luong'] . ' trong kho' ?></span>
+                                        <?php if ((int)$sanPham['so_luong'] > 0): ?>
+                                            <i class="fa fa-check-circle"></i>
+                                            <span><?= (int)$sanPham['so_luong'] . ' trong kho' ?></span>
+                                        <?php else: ?>
+                                            <i class="fa fa-times-circle" style="color:#e74c3c"></i>
+                                            <span>Hết hàng</span>
+                                        <?php endif; ?>
                                     </div>
                                     <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>
                                     <form action="<?= BASE_URL . "?act=them-gio-hang" ?>" method="post">
@@ -84,10 +89,10 @@
                                             <h6 class="option-title">Số Lượng:</h6>
                                             <div class="quantity">
                                                 <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
-                                                <div class="pro-qty"><input type="text" value="1" name="so_luong"></div>
+                                                <div class="pro-qty"><input type="number" min="1" max="<?= (int)$sanPham['so_luong'] ?>" value="1" name="so_luong" <?= (int)$sanPham['so_luong'] <= 0 ? 'disabled' : '' ?>></div>
                                             </div>
                                             <div class="action_link">
-                                                <button class="btn btn-cart2">Thêm giỏ hàng</button>
+                                                <button class="btn btn-cart2" <?= (int)$sanPham['so_luong'] <= 0 ? 'disabled' : '' ?>>Thêm giỏ hàng</button>
                                             </div>
                                         </div>
                                     </form>

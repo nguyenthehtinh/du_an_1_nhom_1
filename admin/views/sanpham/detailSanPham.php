@@ -52,7 +52,7 @@
                             <hr>
                             <h4 class="mt-3">Giá tiền: <small><?= $sanPham['gia_san_pham'] ?></small></h4>
                             <h4 class="mt-3">Khuyến Mãi: <small><?= $sanPham['gia_khuyen_mai'] ?></small></h4>
-                            <h4 class="mt-3">Số Lượng: <small><?= $sanPham['gia_san_pham'] ?></small></h4>
+                            <h4 class="mt-3">Số Lượng: <small><?= $sanPham['so_luong'] ?></small></h4>
                             <h4 class="mt-3">Lượt Xem: <small><?= $sanPham['luot_xem'] ?></small></h4>
                             <h4 class="mt-3">Ngày Nhập: <small><?= $sanPham['ngay_nhap'] ?></small></h4>
                             <h4 class="mt-3">Danh Mục: <small><?= $sanPham['ten_danh_muc'] ?></small></h4>

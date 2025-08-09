@@ -161,4 +161,23 @@ class SanPham
             echo "Lỗi " . $e->getMessage();
         }
     }
+
+    public function decreaseQuantity($san_pham_id, $so_luong): bool
+    {
+        try {
+            $sql = "UPDATE san_phams
+                    SET so_luong = CASE WHEN so_luong >= :so_luong THEN so_luong - :so_luong ELSE 0 END
+                    WHERE id = :id";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':so_luong' => $so_luong,
+                ':id' => $san_pham_id,
+            ]);
+            return true;
+        } catch (Exception $e) {
+            echo "Lỗi " . $e->getMessage();
+            return false;
+        }
+    }
 }

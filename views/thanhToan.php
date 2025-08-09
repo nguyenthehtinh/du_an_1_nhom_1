@@ -75,7 +75,7 @@
                                 <div class="single-input-item">
                                     <label for="sdt_nguoi_nhan" class="required">SĐT Người Nhận</label>
                                     <input type="text" id="sdt_nguoi_nhan" name="sdt_nguoi_nhan"
-                                        value="<?= isset($_SESSION['old_data']['sdt_nguoi_nhan']) ? $_SESSION['old_data']['sdt_nguoi_nhan'] : '' ?>"
+                                        value="<?= isset($_SESSION['old_data']['sdt_nguoi_nhan']) ? $_SESSION['old_data']['sdt_nguoi_nhan'] : ($user['so_dien_thoai'] ?? '') ?>"
                                         placeholder="SĐT Người Nhận" />
                                     <?php if (isset($_SESSION['errors']['sdt_nguoi_nhan'])): ?>
                                         <div class="error" style="color: red;"><?= $_SESSION['errors']['sdt_nguoi_nhan'] ?>
@@ -85,7 +85,7 @@
                                 <div class="single-input-item">
                                     <label for="dia_chi_nguoi_nhan" class="required">Địa Chỉ Người Nhận</label>
                                     <input type="text" id="dia_chi_nguoi_nhan" name="dia_chi_nguoi_nhan"
-                                        value="<?= isset($_SESSION['old_data']['dia_chi_nguoi_nhan']) ? $_SESSION['old_data']['dia_chi_nguoi_nhan'] : '' ?>"
+                                        value="<?= isset($_SESSION['old_data']['dia_chi_nguoi_nhan']) ? $_SESSION['old_data']['dia_chi_nguoi_nhan'] : ($user['dia_chi'] ?? '') ?>"
                                         placeholder="Địa Chỉ Người Nhận" />
                                     <?php if (isset($_SESSION['errors']['dia_chi_nguoi_nhan'])): ?>
                                         <div class="error" style="color: red;">

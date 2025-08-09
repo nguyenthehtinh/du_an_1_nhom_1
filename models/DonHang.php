@@ -62,8 +62,11 @@ class DonHang
      public function getDonHangByTaiKhoan($tai_khoan_id)
      {
         try {
-            // sắp xếp theo ngày đặt giảm dần
-            $sql = "SELECT * FROM don_hangs WHERE tai_khoan_id = :tai_khoan_id ORDER BY ngay_dat DESC";
+            // sắp xếp theo ngày đặt giảm dần, ẩn các đơn đã hủy
+            $sql = "SELECT * FROM don_hangs 
+                    WHERE tai_khoan_id = :tai_khoan_id 
+                      AND trang_thai_id <> 11 
+                    ORDER BY ngay_dat DESC";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([':tai_khoan_id' => $tai_khoan_id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -31,7 +31,7 @@
                                                     <?php endif; ?>
                                                 </span>
                                             </td>
-                                            <!-- <td class="pro-quantity"><?= htmlspecialchars($item['so_luong']) ?></td> -->
+                                            <td class="pro-quantity"><?= htmlspecialchars($item['so_luong']) ?></td>
                                             <td class="pro-subtotal"><span>
                                                     <?php
                                                     $tong_tien = !empty($item['gia_khuyen_mai']) ? $item['gia_khuyen_mai'] * $item['so_luong'] : $item['gia_san_pham'] * $item['so_luong'];

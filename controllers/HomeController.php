@@ -76,12 +76,17 @@ class HomeController
                 // Lấy thông tin sản phẩm cho từng chi tiết đơn hàng
                 $sanPhamDetails = [];
                 foreach ($chiTietSanPham as $item) {
-                    $sanPham = $this->modelSanPham->getDetailSanPham($item['san_pham_id']); // Sử dụng 'san_pham_id' để lấy thông tin sản phẩm
+                    $sanPham = $this->modelSanPham->getDetailSanPham($item['san_pham_id']);
+                    // Xác định giá hiển thị: ưu tiên giá khuyến mãi nếu có, sau đó đến giá sản phẩm
+                    $giaHienThi = isset($sanPham['gia_khuyen_mai']) && $sanPham['gia_khuyen_mai'] > 0
+                        ? $sanPham['gia_khuyen_mai']
+                        : ($sanPham['gia_san_pham'] ?? 0);
+
                     $sanPhamDetails[] = [
                         'san_pham' => $sanPham,
                         'so_luong' => $item['so_luong'],
-                        'gia' => $sanPham['gia'], // Hoặc tính toán giá theo nhu cầu
-                        'thanh_tien' => $item['thanh_tien'], // Thêm thông tin thành tiền
+                        'gia' => $giaHienThi,
+                        'thanh_tien' => $item['thanh_tien'],
                     ];
                 }
 
@@ -316,11 +321,27 @@ class HomeController
                 $san_pham_id = $_POST['san_pham_id'];
                 $so_luong = $_POST['so_luong'];
 
+                // Kiểm tra tồn kho trước khi thêm vào giỏ
+                $sanPham = $this->modelSanPham->getDetailSanPham($san_pham_id);
+                if (!$sanPham || (int)$so_luong < 1 || (int)$so_luong > (int)$sanPham['so_luong']) {
+                    $_SESSION['error'] = "Số lượng hàng không đủ.";
+                    $_SESSION['flash'] = true;
+                    header("Location:" . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
+                    exit();
+                }
+
                 $checkSanPham = false;
                 if (isset($chi_tiet_gio_hang)) {
                     foreach ($chi_tiet_gio_hang as $detail) {
                         if ($detail['san_pham_id'] == $san_pham_id) {
                             $newSanPham = $detail['so_luong'] + $so_luong;
+                            // Không vượt quá tồn kho
+                            if ($newSanPham > (int)$sanPham['so_luong']) {
+                                $_SESSION['error'] = "Số lượng hàng không đủ.";
+                                $_SESSION['flash'] = true;
+                                header("Location:" . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
+                                exit();
+                            }
                             $this->modelGioHang->updateSoLuong($gio_hang['id'], $san_pham_id, $newSanPham);
                             $checkSanPham = true;
                             break;
@@ -495,6 +516,8 @@ class HomeController
                         $item['so_luong'],
                         $thanh_tien
                     );
+                    // Trừ số lượng tồn kho sản phẩm
+                    $this->modelSanPham->decreaseQuantity($item['san_pham_id'], $item['so_luong']);
                 }
                 
                 // Xóa giỏ hàng sau khi đặt hàng thành công
@@ -502,7 +525,8 @@ class HomeController
             }
 
             $_SESSION['success'] = "Đặt hàng thành công! Mã đơn hàng: " . $ma_don_hang;
-            header("Location:" . BASE_URL);
+            // Điều hướng về trang tài khoản, mở tab Đơn hàng
+            header("Location:" . BASE_URL . '?act=tai-khoan&tab=orders');
             exit();
         }
     }
@@ -525,13 +549,13 @@ class HomeController
                 // Cập nhật đơn hàng
                 $this->modelDonHang->updateDonHang($don_hang_id, $trang_thai_id);
 
-                // Chuyển hướng về trang tài khoản sau khi hủy thành công
-                header("Location: " . BASE_URL . "?act=tai-khoan");
+                // Chuyển hướng về trang tài khoản (mở tab Đơn hàng)
+                header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
                 exit();
             } else {
                 // Nếu không có ID đơn hàng thì xử lý lỗi
                 $_SESSION['error'] = 'Không tìm thấy đơn hàng để hủy.';
-                header("Location: " . BASE_URL . "?act=tai-khoan");
+                header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
                 exit();
             }
         }

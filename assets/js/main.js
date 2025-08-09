@@ -467,19 +467,31 @@
     $('.pro-qty').append('<span class="inc qtybtn">+</span>');
     $('.qtybtn').on('click', function () {
         var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
+        var $input = $button.parent().find('input');
+        var min = parseInt($input.attr('min')) || 0;
+        var max = parseInt($input.attr('max')) || Number.MAX_SAFE_INTEGER;
+        var oldValue = parseInt($input.val()) || min;
+
+        var newVal = oldValue;
         if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
+            newVal = Math.min(max, oldValue + 1);
         } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
+            newVal = Math.max(min, oldValue - 1);
         }
-        $button.parent().find('input').val(newVal);
-	});
+        $input.val(newVal).trigger('change');
+    });
+
+    // Clamp manual input within [min, max]
+    $('.pro-qty input').on('input change', function () {
+        var $input = $(this);
+        var min = parseInt($input.attr('min')) || 0;
+        var max = parseInt($input.attr('max')) || Number.MAX_SAFE_INTEGER;
+        var val = parseInt($input.val());
+        if (isNaN(val)) val = min;
+        if (val < min) val = min;
+        if (val > max) val = max;
+        $input.val(val);
+    });
 
 
 	// product view mode change js

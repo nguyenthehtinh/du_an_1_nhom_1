@@ -4,12 +4,10 @@
 <!-- Navbar -->
 <?php include './views/layout/navbar.php'; ?>
 
-
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
 <?php include './views/layout/sidebar.php'; ?>
-
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -29,90 +27,66 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Sửa Thông Tin Tài Khoản Khách Hàng: <?= $khachHang['ho_ten'] ?></h3>
+                            <h3 class="card-title">Danh Sách Tài Khoản Khách Hàng</h3>
                         </div>
-
-
-                        <form action="<?= BASE_URL_ADMIN . '?act=sua-khach-hang' ?>" method="POST">
-                            <input type="hidden" name="khach_hang_id" value="<?= $khachHang['id'] ?>">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label>Họ Tên</label>
-                                    <input type="text" class="form-control" name="ho_ten" placeholder="Nhập tên họ tên"
-                                        value="<?= $khachHang['ho_ten'] ?>">
-                                    <?php if (isset($_SESSION['error']['ho_ten'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['ho_ten']; ?></p>
-                                    <?php } ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Nhập tên email"
-                                        value="<?= $khachHang['email'] ?>">
-                                    <?php if (isset($_SESSION['error']['email'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['email']; ?></p>
-                                    <?php } ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Số Điện Thoại</label>
-                                    <input type="text" class="form-control" name="so_dien_thoai"
-                                        value="<?= $khachHang['so_dien_thoai'] ?>" placeholder="Nhập tên số điện thoại">
-                                    <?php if (isset($_SESSION['error']['so_dien_thoai'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['so_dien_thoai']; ?></p>
-                                    <?php } ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Ngày Sinh</label>
-                                    <input type="date" class="form-control" name="ngay_sinh"
-                                        value="<?= $khachHang['ngay_sinh'] ?>">
-                                    <?php if (isset($_SESSION['error']['ngay_sinh'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['ngay_sinh']; ?></p>
-                                    <?php } ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Giới Tính</label>
-                                    <label for="inputStatus">Giới Tính</label>
-                                    <select id="inputStatus" name="gioi_tinh" class="form-control custom-select">
-                                        <option <?= $khachHang['gioi_tinh'] == 1 ? 'selected' : '' ?> value="1">Nam
-                                        </option>
-                                        <option <?= $khachHang['gioi_tinh'] !== 1 ? 'selected' : '' ?> value="2">Nữ
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Địa Chỉ</label>
-                                    <input type="text" class="form-control" name="dia_chi"
-                                        value="<?= $khachHang['dia_chi'] ?>" placeholder="Nhập Địa chỉ">
-                                    <?php if (isset($_SESSION['error']['dia_chi'])) { ?>
-                                        <p class="text-danger"><?= $_SESSION['error']['dia_chi']; ?></p>
-                                    <?php } ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputStatus">Trạng Thái Tài Khoản</label>
-                                    <select id="inputStatus" name="trang_thai" class="form-control custom-select">
-                                        <option <?= $khachHang['trang_thai'] == 1 ? 'selected' : '' ?> value="1">Active
-                                        </option>
-                                        <option <?= $khachHang['trang_thai'] !== 1 ? 'selected' : '' ?> value="2">Inactive
-                                        </option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="<?= BASE_URL_ADMIN . '?act=list-tai-khoan-khach-hang' ?>"
-                                    class="btn btn-secondary">Back</a>
-                            </div>
-                        </form>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Họ Tên</th>
+                                        <th>Email</th>
+                                        <th>Số Điện Thoại</th>
+                                        <th>Ngày Sinh</th>
+                                        <th>Giới Tính</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($listKhachHang as $key => $khachHang) : ?>
+                                        <tr>
+                                            <td><?= $key + 1  ?></td>
+                                            <td><?= $khachHang['ho_ten']  ?></td>
+                                            <td><?= $khachHang['email']  ?></td>
+                                            <td><?= $khachHang['so_dien_thoai']  ?></td>
+                                            <td><?= $khachHang['ngay_sinh']  ?></td>
+                                            <td><?= $khachHang['gioi_tinh'] == 1 ? "Nam" : "Nữ" ?></td>
+                                            <td><?= $khachHang['trang_thai'] == 1 ? "Active" : "Inactive" ?></td>
+                                            <td>
+                                                <a class="btn btn-primary" href="<?= BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $khachHang['id'] ?>">
+                                                    <i class="nav-icon fas fa-eye"></i>
+                                                </a>
+                                                <a class="btn btn-warning" href="<?= BASE_URL_ADMIN . '?act=form-sua-khach-hang&id_khach_hang=' . $khachHang['id'] ?>">
+                                                    <i class="nav-icon fas fa-solid fa-wrench"></i>
+                                                </a>
+                                                <a href="<?= BASE_URL_ADMIN . '?act=reset-password&id_quan_tri=' . $khachHang['id'] ?>" onclick="return confirm('Bạn có muốn reset password của tài khoản này không')">
+                                                    <button class="btn btn-danger">Reset</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Họ Tên</th>
+                                        <th>Email</th>
+                                        <th>Số Điện Thoại</th>
+                                        <th>Ngày Sinh</th>
+                                        <th>Giới Tính</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Thao Tác</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
                     </div>
+                    <!-- /.card -->
                 </div>
                 <!-- /.col -->
             </div>
@@ -126,7 +100,17 @@
 <!-- Footer  -->
 <?php include './views/layout/footer.php'; ?>
 <!-- End Footer  -->
-
+<!-- Page specific script -->
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
 
 </body>
 
