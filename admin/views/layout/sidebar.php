@@ -14,7 +14,7 @@
                 <img src="./assets/dist/img/hinh-nen-sadboiz-8-min.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Ắc Quỉ</a>
+                <a href="#" class="d-block">ADMIN SHOP</a>
             </div>
         </div>
         <!-- Sidebar Menu -->
