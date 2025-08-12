@@ -28,8 +28,8 @@
                                         </li>
                                         <li><a href="<?= BASE_URL . '?act=san-pham' ?>">Sản Phẩm</a>
                                         </li>
-                                        <li><a href="#">Giới Thiệu</a></li>
-                                        <li><a href="#">Liên Hệ</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>">Giới Thiệu</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=lien-he' ?>">Liên Hệ</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->
