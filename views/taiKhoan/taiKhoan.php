@@ -112,13 +112,14 @@
                                                                 <td><?= number_format($donHang['tong_tien']) . 'đ'; ?>
                                                                 </td>
                                                                 <td>
-                                                                    <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST">
-                                                                        <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>"> <!-- Truyền ID đơn hàng -->
-                                                                        <button type="submit" class="btn btn-sqr mt-4" onclick="return confirm('Bạn muốn hủy đơn?')">Hủy đơn</button>
-                                                                    </form>
-
-
-
+                                                                    <?php if ((int)$donHang['trang_thai_id'] === 1): ?>
+                                                                        <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST">
+                                                                            <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>"> <!-- Truyền ID đơn hàng -->
+                                                                            <button type="submit" class="btn btn-sqr mt-4" onclick="return confirm('Bạn muốn hủy đơn?')">Hủy đơn</button>
+                                                                        </form>
+                                                                    <?php else: ?>
+                                                                        <button type="button" class="btn btn-sqr mt-4" disabled>Không thể hủy</button>
+                                                                    <?php endif; ?>
                                                                 </td>
 
                                                             </tr>

@@ -543,11 +543,17 @@ class HomeController
 
             // Kiểm tra xem ID đơn hàng có hợp lệ không
             if ($don_hang_id) {
-                // Đặt trạng thái là 11 (đã hủy)
-                $trang_thai_id = 11;
-
-                // Cập nhật đơn hàng
-                $this->modelDonHang->updateDonHang($don_hang_id, $trang_thai_id);
+                // Kiểm tra trạng thái hiện tại của đơn hàng
+                $donHang = $this->modelDonHang->getDonHangById($don_hang_id);
+                if ($donHang && (int)$donHang['trang_thai_id'] === 1) { // Chỉ cho hủy khi Chưa Xác Nhận
+                    // Đặt trạng thái là 11 (đã hủy)
+                    $trang_thai_id = 11;
+                    // Cập nhật đơn hàng
+                    $this->modelDonHang->updateDonHang($don_hang_id, $trang_thai_id);
+                    $_SESSION['success'] = 'Hủy đơn hàng thành công.';
+                } else {
+                    $_SESSION['error'] = 'Chỉ có đơn hàng chưa xác nhận mới được hủy.';
+                }
 
                 // Chuyển hướng về trang tài khoản (mở tab Đơn hàng)
                 header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
