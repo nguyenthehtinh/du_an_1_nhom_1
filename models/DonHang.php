@@ -31,7 +31,9 @@ class DonHang
 
             return $this->conn->lastInsertId();
         } catch (Exception $e) {
-            echo 'Lỗi' . $e->getMessage();
+            $message = $e->getMessage();
+            error_log('[AddDonHang] ' . $message);
+            return $message; // trả về thông báo lỗi để controller xử lý
         }
 
 
@@ -54,8 +56,9 @@ class DonHang
 
             return true;
         } catch (Exception $e) {
-            echo 'Lỗi' . $e->getMessage();
-            return false;
+            $message = $e->getMessage();
+            error_log('[AddChiTietDonHang] ' . $message);
+            return $message;
         }
      }
      // lịch sử đơn hàng 

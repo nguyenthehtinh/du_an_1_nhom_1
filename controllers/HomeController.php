@@ -443,7 +443,19 @@ class HomeController
             $sdt_nguoi_nhan = $_POST['sdt_nguoi_nhan'];
             $dia_chi_nguoi_nhan = $_POST['dia_chi_nguoi_nhan'];
             $ghi_chu = $_POST['ghi_chu'];
-            $tong_tien = $_POST['tong_tien'];
+            // Không tin tưởng tổng tiền gửi từ client; tính lại server-side để an toàn
+            $userTmp = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHangTmp = $this->modelGioHang->getGioHangFromUser($userTmp['id']);
+            $chiTietTmp = $gioHangTmp ? $this->modelGioHang->getDetailGioHangFromId($gioHangTmp['id']) : [];
+            $tong_tien = 0;
+            foreach ($chiTietTmp as $it) {
+                $donGiaIt = $it['gia_khuyen_mai'] ? $it['gia_khuyen_mai'] : $it['gia_san_pham'];
+                $tong_tien += ((float)$donGiaIt) * ((int)$it['so_luong']);
+            }
+            // phí ship cố định 40k
+            $tong_tien += 40000;
+            // Ép kiểu và ràng buộc để tránh sai định dạng
+            $tong_tien = (float)$tong_tien;
             $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'];
             $ngay_dat = date('Y-m-d');
             $trang_thai_id = 1;
@@ -479,6 +491,10 @@ class HomeController
                 exit();
             }
 
+            // Làm tròn 2 chữ số thập phân để khớp định dạng cột DECIMAL(10,2)
+            $tong_tien = round($tong_tien, 2);
+            $tong_tien_db = number_format($tong_tien, 2, '.', '');
+
             // Nếu không có lỗi, xử lý đơn hàng
             $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
             $tai_khoan_id = $user['id'];
@@ -492,13 +508,20 @@ class HomeController
                 $sdt_nguoi_nhan,
                 $dia_chi_nguoi_nhan,
                 $ghi_chu,
-                $tong_tien,
+                $tong_tien_db,
                 $phuong_thuc_thanh_toan_id,
                 $ngay_dat,
                 $ma_don_hang,
                 $trang_thai_id
             );
-            
+            if (!$donHangThanhToan || !is_numeric($donHangThanhToan)) {
+                $msg = is_string($donHangThanhToan) ? ($donHangThanhToan . ' | tong_tien=' . $tong_tien_db) : 'Tạo đơn hàng thất bại. Vui lòng thử lại.';
+                $_SESSION['error'] = $msg;
+                $_SESSION['flash'] = true;
+                header('Location: ' . BASE_URL . '?act=thanh-toan');
+                exit();
+            }
+
             $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
             if ($donHangThanhToan && $gioHang) {
                 // Lấy chi tiết giỏ hàng
@@ -508,14 +531,22 @@ class HomeController
                 foreach ($chi_tiet_gio_hang as $item) {
                     $don_gia = $item['gia_khuyen_mai'] ? $item['gia_khuyen_mai'] : $item['gia_san_pham'];
                     $thanh_tien = $don_gia * $item['so_luong'];
-                    
-                    $this->modelDonHang->addChiTietDonHang(
+                    $don_gia_db = number_format($don_gia, 2, '.', '');
+                    $thanh_tien_db = number_format($thanh_tien, 2, '.', '');
+
+                    $added = $this->modelDonHang->addChiTietDonHang(
                         $donHangThanhToan,
                         $item['san_pham_id'],
-                        $don_gia,
+                        $don_gia_db,
                         $item['so_luong'],
-                        $thanh_tien
+                        $thanh_tien_db
                     );
+                    if ($added !== true) {
+                        $_SESSION['error'] = 'Lưu chi tiết đơn thất bại: ' . $added;
+                        $_SESSION['flash'] = true;
+                        header('Location: ' . BASE_URL . '?act=thanh-toan');
+                        exit();
+                    }
                     // Trừ số lượng tồn kho sản phẩm
                     $this->modelSanPham->decreaseQuantity($item['san_pham_id'], $item['so_luong']);
                 }

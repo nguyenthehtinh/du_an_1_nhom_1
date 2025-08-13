@@ -195,7 +195,7 @@
 
                                     <div class="summary-footer-area">
                                         <div class="custom-control custom-checkbox mb-20">
-                                            <input type="checkbox" class="custom-control-input" id="terms" required />
+                                            <input type="checkbox" class="custom-control-input" id="terms" name="terms" value="1" checked required />
                                             <label class="custom-control-label" for="terms">Xác Nhận Đặt Hàng </label>
                                         </div>
                                         <button type="submit" class="btn btn-sqr">Tiến Hành Đặt Hàng</button>
