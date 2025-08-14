@@ -183,10 +183,16 @@
                                                     </a>
                                                 </h6>
                                                 <div class="price-box">
-                                                    <!-- Chỉ hiển thị giá gốc -->
-                                                    <span class="price-regular">
-                                                        <?= fomatPrice($sanPham['gia_san_pham']) . "đ"; ?>
-                                                    </span>
+                                                    <?php if (!empty($sanPham['gia_khuyen_mai']) && (float)$sanPham['gia_khuyen_mai'] > 0 && (float)$sanPham['gia_khuyen_mai'] < (float)$sanPham['gia_san_pham']) { ?>
+                                                        <span class="price-regular">
+                                                            <?= fomatPrice($sanPham['gia_khuyen_mai']) . "đ"; ?>
+                                                        </span>
+                                                        <span class="price-old"><del><?= fomatPrice($sanPham['gia_san_pham']) . "đ" ?></del></span>
+                                                    <?php } else { ?>
+                                                        <span class="price-regular">
+                                                            <?= fomatPrice($sanPham['gia_san_pham']) . "đ"; ?>
+                                                        </span>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -211,7 +217,7 @@
                 <div class="col-12">
                     <!-- section title start -->
                     <div class="section-title text-center">
-                        <h2 class="title">Giá Khuyến Mãi</h2>
+                        <h2 class="title">Sản phẩm Khuyến Mãi</h2>
                         <p class="sub-title">Sản Phẩm Của Chúng Tôi</p>
                     </div>
                     <!-- section title start -->
@@ -226,7 +232,7 @@
                             <div class="tab-pane fade show active" id="tab1">
                                 <div class="product-carousel-4 slick-row-10 slick-arrow-style">
                                     <!-- product item start -->
-                                    <?php foreach ($listSanPham as $key => $sanPham): ?>
+                                    <?php foreach ($listSanPham as $key => $sanPham): if (!empty($sanPham['gia_khuyen_mai']) && (float)$sanPham['gia_khuyen_mai'] > 0 && (float)$sanPham['gia_khuyen_mai'] < (float)$sanPham['gia_san_pham']): ?>
                                         <div class="product-item">
                                             <figure class="product-thumb">
                                                 <a
@@ -286,7 +292,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    <?php endforeach ?>
+                                    <?php endif; endforeach ?>
                                     <!-- product item end -->
                                 </div>
                             </div>

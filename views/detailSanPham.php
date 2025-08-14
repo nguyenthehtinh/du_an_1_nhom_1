@@ -56,46 +56,63 @@
                                     <div class="manufacturer-name">
                                         <a href="#"><?= $sanPham['ten_danh_muc'] ?></a>
                                     </div>
-                                    <h3 class="product-name"><?= $sanPham['ten_san_pham'] ?></h3>
+									<h3 class="product-name d-flex align-items-center justify-content-between">
+										<span><?= $sanPham['ten_san_pham'] ?></span>
+										<?php 
+											$hasDiscount = (!empty($sanPham['gia_khuyen_mai']) && (float)$sanPham['gia_khuyen_mai'] > 0 && (float)$sanPham['gia_khuyen_mai'] < (float)$sanPham['gia_san_pham']);
+											$discountPercent = $hasDiscount ? max(1, round(100 - ($sanPham['gia_khuyen_mai'] / $sanPham['gia_san_pham']) * 100)) : 0;
+											$savingAmount = $hasDiscount ? ((float)$sanPham['gia_san_pham'] - (float)$sanPham['gia_khuyen_mai']) : 0;
+										?>
+										<?php if ($hasDiscount) { ?>
+											<span class="badge bg-danger" style="font-size:14px">-<?= $discountPercent ?>%</span>
+										<?php } ?>
+									</h3>
                                     <div class="ratings d-flex">
                                         <div class="pro-review">
                                             <?php $countComment = count($listBinhLuan); ?>
                                             <span><?= $countComment . 'Bình Luận' ?> </span>
                                         </div>
                                     </div>
-                                    <div class="price-box">
-                                        <?php if ($sanPham['gia_khuyen_mai']) { ?>
-                                            <span
-                                                class="price-regular"><?= fomatPrice($sanPham['gia_khuyen_mai']) . "đ"; ?></span>
-                                            <span
-                                                class="price-old"><del><?= fomatPrice($sanPham['gia_san_pham']) . "đ" ?></del></span>
-                                        <?php } else { ?>
-                                            <span
-                                                class="price-regular"><?= fomatPrice($sanPham['gia_san_pham']) . "đ"; ?></span>
-                                        <?php } ?>
-                                    </div>
+									<div class="price-box" style="margin-bottom:10px">
+										<?php if ($hasDiscount) { ?>
+											<span class="price-regular" style="font-size:22px; color:#e74c3c; font-weight:700">
+												<?= fomatPrice($sanPham['gia_khuyen_mai']) . "đ"; ?>
+											</span>
+											<span class="price-old" style="margin-left:8px"><del><?= fomatPrice($sanPham['gia_san_pham']) . "đ" ?></del></span>
+											<div style="font-size:13px; color:#27ae60; margin-top:4px">Tiết kiệm <?= fomatPrice($savingAmount) . "đ"; ?></div>
+										<?php } else { ?>
+											<span class="price-regular" style="font-size:22px; font-weight:700">
+												<?= fomatPrice($sanPham['gia_san_pham']) . "đ"; ?>
+											</span>
+										<?php } ?>
+									</div>
                                     <div class="availability">
                                         <?php if ((int)$sanPham['so_luong'] > 0): ?>
-                                            <i class="fa fa-check-circle"></i>
-                                            <span><?= (int)$sanPham['so_luong'] . ' trong kho' ?></span>
+											<span class="badge" style="background:#e9f9ee; color:#27ae60; padding:8px 12px; border-radius:20px"><i class="fa fa-check-circle"></i> Còn <?= (int)$sanPham['so_luong'] ?> sản phẩm</span>
                                         <?php else: ?>
-                                            <i class="fa fa-times-circle" style="color:#e74c3c"></i>
-                                            <span>Hết hàng</span>
+											<span class="badge" style="background:#fdecea; color:#e74c3c; padding:8px 12px; border-radius:20px"><i class="fa fa-times-circle"></i> Hết hàng</span>
                                         <?php endif; ?>
                                     </div>
                                     <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>
                                     <form action="<?= BASE_URL . "?act=them-gio-hang" ?>" method="post">
                                         <div class="quantity-cart-box d-flex align-items-center">
                                             <h6 class="option-title">Số Lượng:</h6>
-                                            <div class="quantity">
-                                                <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
-                                                <div class="pro-qty"><input type="number" min="1" max="<?= (int)$sanPham['so_luong'] ?>" value="1" name="so_luong" <?= (int)$sanPham['so_luong'] <= 0 ? 'disabled' : '' ?>></div>
-                                            </div>
+											<div class="quantity d-flex align-items-center" style="gap:8px">
+												<input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
+												<button type="button" class="qty-btn" data-type="minus" style="width:36px;height:36px;border:1px solid #ddd;background:#f9f9f9">-</button>
+												<input id="qty-input" type="number" min="1" max="<?= (int)$sanPham['so_luong'] ?>" value="1" name="so_luong" style="width:70px;text-align:center" <?= (int)$sanPham['so_luong'] <= 0 ? 'disabled' : '' ?>>
+												<button type="button" class="qty-btn" data-type="plus" style="width:36px;height:36px;border:1px solid #ddd;background:#f9f9f9">+</button>
+											</div>
                                             <div class="action_link">
                                                 <button class="btn btn-cart2" <?= (int)$sanPham['so_luong'] <= 0 ? 'disabled' : '' ?>>Thêm giỏ hàng</button>
                                             </div>
                                         </div>
                                     </form>
+									<div class="mt-3" style="display:flex;gap:20px;flex-wrap:wrap">
+										<div style="display:flex;align-items:center;gap:8px"><i class="fa fa-truck"></i> <span>Giao hàng nhanh 2-4 ngày</span></div>
+										<div style="display:flex;align-items:center;gap:8px"><i class="fa fa-shield"></i> <span>Bảo hành sức khỏe 7 ngày</span></div>
+										<div style="display:flex;align-items:center;gap:8px"><i class="fa fa-undo"></i> <span>Đổi trả khi lỗi</span></div>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -112,8 +129,17 @@
                                             <a class="active" data-bs-toggle="tab" href="#tab_three">Bình Luận
                                                 (<?= $countComment; ?>)</a>
                                         </li>
+                                            <li>
+                                                <a data-bs-toggle="tab" href="#tab_desc">Mô tả</a>
+                                            </li>
                                     </ul>
                                     <div class="tab-content reviews-tab">
+
+                                            <div class="tab-pane fade" id="tab_desc">
+                                                <div class="p-3" style="background:#f9f9f9;border-radius:8px">
+                                                    <?= nl2br(htmlspecialchars($sanPham['mo_ta'] ?? '')) ?>
+                                                </div>
+                                            </div>
 
                                         <div class="tab-pane fade show active" id="tab_three">
                                             <?php foreach ($listBinhLuan as $binhLuan): ?>
@@ -242,3 +268,22 @@
 
 <?php require_once "layout/miniCart.php"; ?>
 <?php require_once "layout/footer.php"; ?>
+<script>
+  (function(){
+    var minusBtn = document.querySelector('.qty-btn[data-type="minus"]');
+    var plusBtn = document.querySelector('.qty-btn[data-type="plus"]');
+    var qtyInput = document.getElementById('qty-input');
+    if(minusBtn && plusBtn && qtyInput){
+      minusBtn.addEventListener('click', function(){
+        var min = parseInt(qtyInput.getAttribute('min')||'1',10);
+        var val = parseInt(qtyInput.value||'1',10);
+        if(val>min){ qtyInput.value = val - 1; }
+      });
+      plusBtn.addEventListener('click', function(){
+        var max = parseInt(qtyInput.getAttribute('max')||'999',10);
+        var val = parseInt(qtyInput.value||'1',10);
+        if(val<max){ qtyInput.value = val + 1; }
+      });
+    }
+  })();
+</script>

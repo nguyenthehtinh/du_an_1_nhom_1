@@ -72,9 +72,7 @@ class AdminSanPhamController
             if (empty($gia_san_pham)) {
                 $error['gia_san_pham'] = 'Giá sản phẩm không được để trống';
             }
-            if (empty($gia_khuyen_mai)) {
-                $error['gia_khuyen_mai'] = 'Giá khuyến mãi không được để trống';
-            }
+            // Cho phép giá khuyến mãi để trống
             if (empty($so_luong)) {
                 $error['so_luong'] = 'Số lượng không được để trống';
             }
@@ -90,6 +88,9 @@ class AdminSanPhamController
             if ($hinh_anh['error'] !== 0) {
                 $error['hinh_anh'] = 'Phải chọn ảnh sản phẩm';
             }
+
+            // Chuẩn hóa giá khuyến mãi: nếu để trống thì lưu NULL
+            $gia_khuyen_mai = ($gia_khuyen_mai === '') ? null : $gia_khuyen_mai;
 
             $_SESSION['error'] = $error;
             // Nếu không có lỗi thì tiến hành thêm sản phẩm
@@ -198,9 +199,7 @@ class AdminSanPhamController
             if (empty($gia_san_pham)) {
                 $error['gia_san_pham'] = 'Giá sản phẩm không được để trống';
             }
-            if (empty($gia_khuyen_mai)) {
-                $error['gia_khuyen_mai'] = 'Giá khuyến mãi không được để trống';
-            }
+            // Cho phép giá khuyến mãi để trống
             if (empty($so_luong)) {
                 $error['so_luong'] = 'Số lượng không được để trống';
             }
@@ -216,6 +215,9 @@ class AdminSanPhamController
             if ($hinh_anh['error'] !== 0) {
                 $error['hinh_anh'] = 'Phải chọn ảnh sản phẩm';
             }
+
+            // Chuẩn hóa giá khuyến mãi: nếu để trống thì lưu NULL
+            $gia_khuyen_mai = ($gia_khuyen_mai === '') ? null : $gia_khuyen_mai;
 
             $_SESSION['error'] = $error;
 
