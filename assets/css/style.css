@@ -6316,3 +6316,93 @@ blockquote {
     font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
     vertical-align: middle !important;
 }
+
+/* Thêm CSS cho chức năng tìm kiếm */
+.search-results-header {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.search-results-header h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.search-results-header p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.no-results {
+    padding: 40px 20px;
+}
+
+.no-results i {
+    color: #ccc;
+}
+
+.no-results h5 {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.no-results p {
+    color: #999;
+    margin-bottom: 20px;
+}
+
+/* Cải thiện form tìm kiếm */
+.header-search-box {
+    position: relative;
+}
+
+.header-search-field {
+    padding-right: 40px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.header-search-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.header-search-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.header-search-btn:hover {
+    background: #0056b3;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Responsive cho tìm kiếm */
+@media (max-width: 768px) {
+    .search-results-header {
+        padding: 15px;
+    }
+    
+    .search-results-header h4 {
+        font-size: 18px;
+    }
+    
+    .no-results {
+        padding: 30px 15px;
+    }
+}

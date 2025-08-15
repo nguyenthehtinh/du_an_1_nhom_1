@@ -28,6 +28,7 @@ match ($act) {
     '/' => (new HomeController())->home(), //Trường hợp đăc biệt
     'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
     'san-pham' => (new HomeController())->sanPham(),
+    'tim-kiem' => (new HomeController())->timKiemSanPham(),
     // 'post-binh-luan-san-pham' => (new HomeController())->postBinhLuan(),
 
     // auth

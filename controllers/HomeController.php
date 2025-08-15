@@ -117,6 +117,31 @@ class HomeController
         require_once "./views/sanPham.php";
     }
 
+    // Thêm phương thức tìm kiếm sản phẩm
+    public function timKiemSanPham()
+    {
+        $tuKhoa = $_GET['tu_khoa'] ?? '';
+        $idDanhMuc = $_GET['id_danh_muc'] ?? null;
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc();
+        
+        if (!empty($tuKhoa)) {
+            if ($idDanhMuc) {
+                $listSanPham = $this->modelSanPham->timKiemSanPhamTheoDanhMuc($tuKhoa, $idDanhMuc);
+            } else {
+                $listSanPham = $this->modelSanPham->timKiemSanPham($tuKhoa);
+            }
+        } else {
+            // Nếu không có từ khóa, hiển thị tất cả sản phẩm
+            if ($idDanhMuc) {
+                $listSanPham = $this->modelSanPham->getAllSanPhamToDanhMuc($idDanhMuc);
+            } else {
+                $listSanPham = $this->modelSanPham->getAllSanPham();
+            }
+        }
+        
+        require_once "./views/sanPham.php";
+    }
+
 
     public function chiTietSanPham()
     {

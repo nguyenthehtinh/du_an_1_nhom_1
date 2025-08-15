@@ -199,4 +199,62 @@ class SanPham
             return false;
         }
     }
+
+    // Thêm phương thức tìm kiếm sản phẩm
+    public function timKiemSanPham($tuKhoa): array
+    {
+        try {
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+                    FROM san_phams
+                    INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+                    WHERE san_phams.ten_san_pham LIKE :tu_khoa 
+                    OR san_phams.mo_ta LIKE :tu_khoa
+                    OR danh_mucs.ten_danh_muc LIKE :tu_khoa
+                    ORDER BY san_phams.ten_san_pham ASC";
+
+            $stmt = $this->conn->prepare($sql);
+            $tuKhoa = '%' . $tuKhoa . '%';
+            $stmt->bindParam(':tu_khoa', $tuKhoa, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "Lỗi tìm kiếm: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    // Thêm phương thức tìm kiếm sản phẩm theo danh mục và từ khóa
+    public function timKiemSanPhamTheoDanhMuc($tuKhoa, $danhMucId = null): array
+    {
+        try {
+            $sql = "SELECT san_phams.*, danh_mucs.ten_danh_muc
+                    FROM san_phams
+                    INNER JOIN danh_mucs ON san_phams.danh_muc_id = danh_mucs.id
+                    WHERE (san_phams.ten_san_pham LIKE :tu_khoa 
+                    OR san_phams.mo_ta LIKE :tu_khoa
+                    OR danh_mucs.ten_danh_muc LIKE :tu_khoa)";
+            
+            if ($danhMucId) {
+                $sql .= " AND san_phams.danh_muc_id = :danh_muc_id";
+            }
+            
+            $sql .= " ORDER BY san_phams.ten_san_pham ASC";
+
+            $stmt = $this->conn->prepare($sql);
+            $tuKhoa = '%' . $tuKhoa . '%';
+            $stmt->bindParam(':tu_khoa', $tuKhoa, PDO::PARAM_STR);
+            
+            if ($danhMucId) {
+                $stmt->bindParam(':danh_muc_id', $danhMucId, PDO::PARAM_INT);
+            }
+            
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "Lỗi tìm kiếm: " . $e->getMessage();
+            return [];
+        }
+    }
 }

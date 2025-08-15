@@ -562,6 +562,72 @@
 		$(".header-search-box").toggleClass('search-box-open');
 	})
 
+	// Cải thiện chức năng tìm kiếm
+	$('.header-search-field').on('input', function() {
+		var searchValue = $(this).val().trim();
+		var searchBtn = $(this).siblings('.header-search-btn');
+		
+		// Enable/disable nút tìm kiếm dựa trên giá trị input
+		if (searchValue.length > 0) {
+			searchBtn.prop('disabled', false).css('opacity', '1');
+		} else {
+			searchBtn.prop('disabled', true).css('opacity', '0.6');
+		}
+	});
+
+	// Xử lý submit form tìm kiếm
+	$('.header-search-box').on('submit', function(e) {
+		var searchValue = $('.header-search-field').val().trim();
+		
+		if (searchValue.length === 0) {
+			e.preventDefault();
+			$('.header-search-field').focus();
+			// Hiển thị thông báo lỗi
+			if (!$('.search-error').length) {
+				$('.header-search-field').after('<div class="search-error text-danger small mt-1">Vui lòng nhập từ khóa tìm kiếm</div>');
+			}
+			return false;
+		}
+		
+		// Xóa thông báo lỗi nếu có
+		$('.search-error').remove();
+		return true;
+	});
+
+	// Xóa thông báo lỗi khi user bắt đầu nhập
+	$('.header-search-field').on('input', function() {
+		$('.search-error').remove();
+	});
+
+	// Tìm kiếm nhanh với Enter key
+	$('.header-search-field').on('keypress', function(e) {
+		if (e.which === 13) { // Enter key
+			var searchValue = $(this).val().trim();
+			if (searchValue.length > 0) {
+				$('.header-search-box').submit();
+			}
+		}
+	});
+
+	// Highlight từ khóa tìm kiếm trong kết quả (nếu có)
+	function highlightSearchTerm() {
+		var urlParams = new URLSearchParams(window.location.search);
+		var searchTerm = urlParams.get('tu_khoa');
+		
+		if (searchTerm && searchTerm.length > 0) {
+			$('.product-name a').each(function() {
+				var text = $(this).text();
+				var highlightedText = text.replace(new RegExp(searchTerm, 'gi'), '<mark>$&</mark>');
+				$(this).html(highlightedText);
+			});
+		}
+	}
+
+	// Chạy highlight khi trang load
+	$(document).ready(function() {
+		highlightSearchTerm();
+	});
+
 
 	// Mail-chimp for dynamic newsletter
     $('#mc-form').ajaxChimp({
