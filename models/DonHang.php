@@ -133,4 +133,56 @@ class DonHang
             echo 'Lỗi: ' . $e->getMessage();
             }
         }
+
+        public function deleteDonHang($id, $tai_khoan_id)
+        {
+            try {
+                // Kiểm tra xem đơn hàng có thuộc về tài khoản này không
+                $sql = "SELECT trang_thai_id FROM don_hangs WHERE id = :id AND tai_khoan_id = :tai_khoan_id";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute([
+                    ':id' => $id,
+                    ':tai_khoan_id' => $tai_khoan_id
+                ]);
+                
+                $donHang = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if (!$donHang) {
+                    return false; // Không tìm thấy đơn hàng hoặc không thuộc về tài khoản này
+                }
+                
+                // Chỉ cho phép xóa đơn hàng đã thành công (trang_thai_id = 9)
+                if ($donHang['trang_thai_id'] != 9) {
+                    return false;
+                }
+                
+                // Bắt đầu transaction
+                $this->conn->beginTransaction();
+                
+                try {
+                    // Xóa chi tiết đơn hàng trước
+                    $sql = "DELETE FROM chi_tiet_don_hangs WHERE don_hang_id = :don_hang_id";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([':don_hang_id' => $id]);
+                    
+                    // Xóa đơn hàng
+                    $sql = "DELETE FROM don_hangs WHERE id = :id";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([':id' => $id]);
+                    
+                    // Commit transaction
+                    $this->conn->commit();
+                    return true;
+                    
+                } catch (Exception $e) {
+                    // Rollback nếu có lỗi
+                    $this->conn->rollBack();
+                    throw $e;
+                }
+                
+            } catch (Exception $e) {
+                error_log('Lỗi xóa đơn hàng: ' . $e->getMessage());
+                return false;
+            }
+        }
 }

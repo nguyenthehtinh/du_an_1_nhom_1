@@ -60,7 +60,6 @@ class TaiKhoan
 
     public function registerUser($ho_ten, $email, $mat_khau)
     {
- 
         try {
             // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
             $sql = 'SELECT * FROM tai_khoans WHERE email = :email';
@@ -73,18 +72,12 @@ class TaiKhoan
             } else {
                 // Mã hóa mật khẩu trước khi lưu
                 $hashedPassword = password_hash($mat_khau, PASSWORD_BCRYPT);
- 
 
-
- 
                 // Tạo tài khoản mới
                 $sql = 'INSERT INTO tai_khoans (ho_ten, email, mat_khau, chuc_vu_id, trang_thai) 
                     VALUES (:ho_ten, :email, :mat_khau, :chuc_vu_id, :trang_thai)';
                 $stmt = $this->conn->prepare($sql);
- 
 
-
- 
                 // Chức vụ là 2 (khách hàng) và trạng thái là 1 (kích hoạt)
                 $stmt->execute([
                     ':ho_ten' => $ho_ten,
@@ -93,16 +86,12 @@ class TaiKhoan
                     ':chuc_vu_id' => 2,
                     ':trang_thai' => 1
                 ]);
- 
 
-
- 
-                header("Location:" . BASE_URL . '?act=login');
-                return "Đăng kí thành công";
-                // Trả về thông tin người dùng sau khi đăng ký thành công
+                // Trả về thông báo thành công
+                return "Đăng ký thành công";
             }
         } catch (\Exception $e) {
-            echo 'Lỗi: ' . $e->getMessage();
+            error_log('Lỗi đăng ký: ' . $e->getMessage());
             return false;
         }
     }

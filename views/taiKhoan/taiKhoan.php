@@ -2,6 +2,8 @@
 <?php require_once 'views/layout/menu.php'; ?>
 
 
+
+
 <div class="my-account-wrapper section-padding">
     <div class="container">
         <div class="section-bg-color">
@@ -31,7 +33,34 @@
 
                             <!-- My Account Tab Content Start -->
                             <div class="col-lg-9 col-md-8">
-                                    <div class="tab-content" id="myaccountContent">
+                                <!-- Hiển thị thông báo thành công/lỗi -->
+                                <?php if (isset($_SESSION['success'])): ?>
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-check-circle"></i> <?= htmlspecialchars($_SESSION['success']) ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                    <?php unset($_SESSION['success']); ?>
+                                <?php endif; ?>
+
+                                <?php if (isset($_SESSION['error'])): ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-exclamation-circle"></i> 
+                                        <?php 
+                                        // Debug: hiển thị thông tin về kiểu dữ liệu
+                                        if (is_array($_SESSION['error'])) {
+                                            echo htmlspecialchars(implode("<br>", $_SESSION['error']));
+                                        } elseif (is_object($_SESSION['error'])) {
+                                            echo htmlspecialchars((string)$_SESSION['error']);
+                                        } else {
+                                            echo htmlspecialchars((string)$_SESSION['error']);
+                                        }
+                                        ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                    <?php unset($_SESSION['error']); ?>
+                                <?php endif; ?>
+
+                                <div class="tab-content" id="myaccountContent">
                                     <!-- Single Tab Content Start -->
 
                                     <!-- Single Tab Content End -->
@@ -48,6 +77,7 @@
                                                             <th>Ngày Đặt</th>
                                                             <th>Trạng Thái</th>
                                                             <th>Tổng Tiền</th>
+                                                            <th>Chi Tiết</th>
                                                             <th>Thao Tác</th>
                                                         </tr>
                                                     </thead>
@@ -102,26 +132,25 @@
                                                                     ?>
                                                                 </td>
 
-                                                                <td><?= number_format($donHang['tong_tien'], 2) . ' đ'; ?>
-                                                                </td>
+                                                                <td><?= number_format($donHang['tong_tien'], 2) . ' đ'; ?></td>
+                                                                
                                                                 <td>
                                                                     <a href="<?= BASE_URL . '?act=chi-tiet-don-hang&id_don_hang=' . $donHang['id'] ?>"
-                                                                        class="btn btn-sqr">View</a>
+                                                                        class="btn btn-sqr">Xem chi tiết</a>
                                                                 </td>
 
-                                                                <td><?= number_format($donHang['tong_tien']) . 'đ'; ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php if ((int)$donHang['trang_thai_id'] === 1): ?>
-                                                                        <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST">
-                                                                            <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>"> <!-- Truyền ID đơn hàng -->
-                                                                            <button type="submit" class="btn btn-sqr mt-4" onclick="return confirm('Bạn muốn hủy đơn?')">Hủy đơn</button>
-                                                                        </form>
-                                                                    <?php else: ?>
-                                                                        <button type="button" class="btn btn-sqr mt-4" disabled>Không thể hủy</button>
-                                                                    <?php endif; ?>
-                                                                </td>
-
+                                                                                                                                       <td>
+                                                                           <?php if ((int)$donHang['trang_thai_id'] === 1): ?>
+                                                                               <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST" class="d-inline">
+                                                                                   <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>">
+                                                                                   <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Bạn muốn hủy đơn?')">
+                                                                                       <i class="fa fa-times"></i> Hủy đơn
+                                                                                   </button>
+                                                                               </form>
+                                                                           <?php else: ?>
+                                                                               <span class="text-muted">Không có thao tác</span>
+                                                                           <?php endif; ?>
+                                                                       </td>
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     </tbody>

@@ -65,7 +65,10 @@ class AdminDonHangController
                 $error['trang_thai_id'] = 'Trạng thái đơn hàng phải chọn';
             }
 
-            $_SESSION['error'] = $error;
+            // Chỉ gán session error nếu có lỗi thực sự
+            if (!empty($error)) {
+                $_SESSION['error'] = $error;
+            }
 
             // Nếu không có lỗi thì tiến hành cập nhật
             if (empty($error)) {

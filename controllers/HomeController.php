@@ -228,73 +228,68 @@ class HomeController
     public function postRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Lấy dữ liệu từ form gửi lên
+            $hoTen = trim($_POST['ho_ten'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['mat_khau'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
 
-            //Lấy thông tin từ form gửi lên
+            // Mảng lưu các thông báo lỗi
+            $errors = [];
 
+            // Kiểm tra họ tên không được để trống
+            if (empty(trim($hoTen))) {
+                $errors[] = "Họ tên không được để trống.";
+            }
 
-            // Lấy thông tin từ form gửi lên
+            // Kiểm tra định dạng email
+            if (empty(trim($email))) {
+                $errors[] = "Email không được để trống.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Email không đúng định dạng.";
+            }
 
-            $hoTen = $_POST['ho_ten'];
-            $email = $_POST['email'];
-            $password = $_POST['mat_khau'];
+            // Kiểm tra độ dài mật khẩu phải lớn hơn 6 ký tự
+            if (empty($password)) {
+                $errors[] = "Mật khẩu không được để trống.";
+            } elseif (strlen($password) < 6) {
+                $errors[] = "Mật khẩu phải có độ dài từ 6 ký tự trở lên.";
+            }
 
+            // Kiểm tra mật khẩu xác nhận
+            if (empty($confirmPassword)) {
+                $errors[] = "Vui lòng xác nhận mật khẩu.";
+            } elseif ($password !== $confirmPassword) {
+                $errors[] = "Mật khẩu xác nhận không khớp.";
+            }
 
+            // Nếu có lỗi, lưu vào session và trả về trang đăng ký
+            if (!empty($errors)) {
+                $_SESSION['error'] = $errors; // Lưu mảng lỗi để hiển thị đúng
+                $_SESSION['flash'] = true;
+                header("Location:" . BASE_URL . '?act=register');
+                exit();
+            }
 
-            //Kiểm tra email đã tồn tại chưa
-            $user = $this->modelTaiKhoan->registerUser($hoTen, $email, $password);
+            // Nếu không có lỗi, gọi phương thức registerUser từ model để đăng ký người dùng
+            $result = $this->modelTaiKhoan->registerUser($hoTen, $email, $password);
 
-            if (is_string($user)) {
-                $_SESSION['error'] = $user;
-
-                // Mảng lưu các thông báo lỗi
-                $errors = [];
-
-                // Kiểm tra họ tên không được để trống
-                if (empty($hoTen)) {
-                    $errors[] = "Họ tên không được để trống.";
-                }
-
-                // Kiểm tra định dạng email
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $errors[] = "Email không đúng định dạng.";
-                }
-
-                // Kiểm tra độ dài mật khẩu phải lớn hơn 6 ký tự
-                if (strlen($password) <= 6) {
-                    $errors[] = "Mật khẩu phải có độ dài lớn hơn 6 ký tự.";
-                }
-
-                // Nếu có lỗi, lưu vào session và trả về trang đăng ký
-                if (!empty($errors)) {
-                    $_SESSION['error'] = implode("<br>", $errors); // Gộp các lỗi thành chuỗi
-
-                    $_SESSION['flash'] = true;
-
-                    header("Location:" . BASE_URL . '?act=register');
-                    exit();
-
-                } else {
-                    //Đăng ký thành công và chuyển hướng về trang đăng nhập
-                    $_SESSION['success'] = $user;
-                    header("Location:" . BASE_URL);
-                    exit();
-                }
+            if ($result === "Đăng ký thành công") { // Trường hợp đăng ký thành công
+                $_SESSION['success'] = "Đăng ký thành công, vui lòng đăng nhập.";
+                header("Location:" . BASE_URL . '?act=login');
+                exit();
+            } elseif (is_string($result)) { // Trường hợp có lỗi như email đã tồn tại
+                $_SESSION['error'] = $result;
+                $_SESSION['flash'] = true;
+                header("Location:" . BASE_URL . '?act=register');
+                exit();
+            } elseif ($result === false) {
+                $_SESSION['error'] = "Có lỗi xảy ra trong quá trình đăng ký. Vui lòng thử lại.";
+                $_SESSION['flash'] = true;
+                header("Location:" . BASE_URL . '?act=register');
+                exit();
             }
         }
-        // Nếu không có lỗi, gọi phương thức registerUser từ model để đăng ký người dùng
-        $result = $this->modelTaiKhoan->registerUser($hoTen, $email, $password);
-
-        if (is_string($result)) { // Trường hợp có lỗi như email đã tồn tại
-            $_SESSION['error'] = $result;
-            $_SESSION['flash'] = true;
-            header("Location:" . BASE_URL . '?act=register');
-            exit();
-        }
-
-        // Nếu đăng ký thành công, chuyển hướng đến trang đăng nhập
-        $_SESSION['success'] = "Đăng ký thành công, vui lòng đăng nhập.";
-        header("Location:" . BASE_URL . '?act=login');
-        exit();
     }
 
 
@@ -597,4 +592,6 @@ class HomeController
             }
         }
     }
+
+    
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="vi">
 
 <head>
     <meta charset="utf-8">
@@ -14,7 +14,7 @@
     <!-- CSS
 	============================================ -->
     <!-- google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
     <!-- Pe-icon-7-stroke CSS -->
@@ -31,6 +31,33 @@
     <link rel="stylesheet" href="assets/css/plugins/jqueryui.min.css">
     <!-- main style css -->
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- CSS cải thiện font tiếng Việt -->
+    <style>
+        /* Cải thiện hiển thị font tiếng Việt toàn cục */
+        body, html {
+            font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Đảm bảo tất cả text đều sử dụng font mới */
+        * {
+            font-family: inherit;
+        }
+        
+        /* Cải thiện hiển thị bảng */
+        table, th, td {
+            font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+        }
+        
+        /* Cải thiện hiển thị form */
+        input, textarea, select, button {
+            font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+        }
+    </style>
 
 </head>
 

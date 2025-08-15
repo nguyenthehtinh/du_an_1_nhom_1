@@ -31,7 +31,7 @@ body {
   line-height: 1.7;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Lato", sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
 }
 
 a {
@@ -53,7 +53,7 @@ p:last-child {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Lato", sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   color: #222222;
   font-weight: 700;
   margin: 0;
@@ -2456,7 +2456,7 @@ textarea:focus {
   padding-bottom: 6px;
   overflow-wrap: break-word;
   text-transform: uppercase;
-  font-family: "Lato", sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .slider-item-content h2 {
@@ -2474,7 +2474,7 @@ textarea:focus {
   font-weight: 400;
   line-height: 1.2;
   text-transform: capitalize;
-  font-family: "Lato", sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
 }
 @media only screen and (max-width: 479.98px) {
   .slider-item-content h3 {
@@ -6064,3 +6064,255 @@ blockquote {
 }
 
 /*----- footer area end -----*/
+
+/* CSS cho nút xóa đơn hàng */
+.btn-danger {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-danger:active {
+    transform: translateY(0);
+}
+
+/* CSS cho nút hủy đơn hàng */
+.btn-warning {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.btn-warning:active {
+    transform: translateY(0);
+}
+
+/* CSS cho badge trạng thái đơn hàng */
+.badge {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.badge.bg-warning {
+    color: #856404 !important;
+    background-color: #fff3cd !important;
+    border: 1px solid #ffeaa7 !important;
+}
+
+.badge.bg-info {
+    color: #0c5460 !important;
+    background-color: #d1ecf1 !important;
+    border: 1px solid #bee5eb !important;
+}
+
+.badge.bg-secondary {
+    color: #6c757d !important;
+    background-color: #e2e3e5 !important;
+    border: 1px solid #d6d8db !important;
+}
+
+.badge.bg-primary {
+    color: #004085 !important;
+    background-color: #cce7ff !important;
+    border: 1px solid #99d6ff !important;
+}
+
+.badge.bg-success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.badge.bg-danger {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+/* CSS cho alert thông báo */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert i {
+    margin-right: 8px;
+}
+
+.btn-close {
+    opacity: 0.7;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* CSS responsive cho trang chi tiết đơn hàng */
+@media (max-width: 768px) {
+    .order-detail-wrapper .table {
+        font-size: 12px;
+    }
+    
+    .order-detail-wrapper .table td, 
+    .order-detail-wrapper .table th {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .btn-danger {
+        font-size: 14px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .pro-thumbnail img {
+        width: 60px !important;
+        height: 60px !important;
+    }
+}
+
+/* CSS cho bảng responsive */
+@media (max-width: 768px) {
+    .myaccount-table {
+        font-size: 12px;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 11px;
+    }
+    
+    .table td, .table th {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+/* CSS cho trang chi tiết đơn hàng */
+.order-info-box {
+    background: #f9fbff;
+    border: 1px solid #e6eefc;
+    border-radius: 8px;
+}
+
+.order-summary-box {
+    background: #fff7ec;
+    border: 1px solid #ffe2b9;
+    border-radius: 8px;
+}
+
+.order-summary-divider {
+    margin: 10px 0;
+}
+
+.order-total-price {
+    font-size: 18px;
+}
+
+/* CSS cho bảng sản phẩm */
+.pro-thumbnail {
+    width: 110px;
+}
+
+.pro-price {
+    width: 160px;
+}
+
+.pro-quantity {
+    width: 120px;
+}
+
+.pro-subtotal {
+    width: 180px;
+}
+
+.pro-thumbnail img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* CSS cho nút xóa đơn hàng */
+.btn-delete-order {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Fix hiển thị chữ/ảnh trong bảng chi tiết đơn hàng */
+.order-detail-wrapper .cart-table .table tbody tr td,
+.order-detail-wrapper .cart-table .table tbody tr td a,
+.order-detail-wrapper .cart-table .table tbody tr td *,
+.order-detail-wrapper .table tbody td,
+.order-detail-wrapper .table tbody td a,
+.order-detail-wrapper .table tbody td * { 
+    color: #2c3e50 !important; 
+    background:#fff; 
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+}
+
+.order-detail-wrapper .pro-title { 
+    color: #2c3e50 !important; 
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+}
+
+.order-detail-wrapper .pro-thumbnail img { 
+    display: block; 
+    opacity: 1 !important; 
+}
+
+/* ưu tiên tuyệt đối: nếu theme đặt color: #fff ở td/th */
+.order-detail-wrapper .cart-table .table tbody tr td,
+.order-detail-wrapper .cart-table .table tbody tr td a,
+.order-detail-wrapper .cart-table .table tbody tr td * {
+    color: #2c3e50 !important;
+    -webkit-text-fill-color: #2c3e50 !important; /* fix Safari */
+    mix-blend-mode: normal !important;
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+}
+
+/* Cải thiện hiển thị tiếng Việt */
+.order-detail-wrapper h2,
+.order-detail-wrapper h5,
+.order-detail-wrapper strong,
+.order-detail-wrapper span,
+.order-detail-wrapper div {
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Đảm bảo bảng hiển thị đúng */
+.order-detail-wrapper .table {
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+}
+
+.order-detail-wrapper .table th,
+.order-detail-wrapper .table td {
+    font-family: "Inter", "Roboto", "Segoe UI", "Arial", sans-serif !important;
+    vertical-align: middle !important;
+}

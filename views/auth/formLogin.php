@@ -10,7 +10,7 @@
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Login/Register</li>
                             </ul>
                         </nav>
@@ -32,25 +32,31 @@
                             <h5 class="text-center">Đăng Nhập</h5>
 
                             <!-- Hiển thị thông báo lỗi -->
-                            <?php if (isset($_SESSION['error'])) { ?>
-                                <p class="text-danger login-box-msg text-center"><?= $_SESSION['error']; ?></p>
-
-                                <?php unset($_SESSION['error']); // Xóa thông báo lỗi sau khi hiển thị 
-                                ?>
-                            <?php } else { ?>
-                                <p class="login-box-msg">Vui Lòng Đăng Nhập</p>
-                            <?php } ?>
+                            <?php if (isset($_SESSION['error'])): ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <?php
+                                    if (is_array($_SESSION['error'])) {
+                                        echo htmlspecialchars(implode("<br>", $_SESSION['error']));
+                                    } elseif (is_object($_SESSION['error'])) {
+                                        echo htmlspecialchars((string)$_SESSION['error']);
+                                    } else {
+                                        echo htmlspecialchars((string)$_SESSION['error']);
+                                    }
+                                    ?>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                <?php unset($_SESSION['error']); ?>
+                            <?php else: ?>
+                                <p class="login-box-msg text-center">Vui Lòng Đăng Nhập</p>
+                            <?php endif; ?>
 
                             <form action="<?= BASE_URL . '?act=check-login' ?>" method="POST">
                                 <div class="single-input-item">
-
                                     <input type="email" placeholder="Email" name="email" required />
-
-                                    <input type="text" placeholder="Email" name="email" />
-
                                 </div>
                                 <div class="single-input-item">
-                                    <input type="password" placeholder="Nhập mật khẩu" name="password" />
+                                    <input type="password" placeholder="Nhập mật khẩu" name="password" required />
                                 </div>
                                 <div class="single-input-item">
                                     <div class="login-reg-form-meta d-flex align-items-center justify-content-between">

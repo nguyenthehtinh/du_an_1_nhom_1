@@ -71,8 +71,6 @@
 
                                                <li><a href="<?= BASE_URL . '?act=tai-khoan' ?>">Tài Khoản</a></li>
 
-                                                <li><a href="<?= BASE_URL . "?act=tai-khoan" ?>">Tài Khoản</a></li>
-
                                                 <li><a href="<?= BASE_URL . '?act=logout' ?>">Đăng Xuất</a></li>
                                             <?php } ?>
 
