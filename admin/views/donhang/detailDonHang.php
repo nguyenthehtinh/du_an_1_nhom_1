@@ -6,6 +6,7 @@
 <!-- End Navbar -->
 <!-- Main Slidebar container -->
 <?php include 'views/layout/sidebar.php'; ?>
+
 <!-- content wapper. contains page content -->
 <div class="content-wrapper">
     <!-- content Header (Page header) -->
@@ -16,12 +17,12 @@
                     <h1>Quản Lý Danh Sách Đơn Hàng - Đơn Hàng: <?= $donHang['ma_don_hang']?></h1>
                 </div>
                     <div class="col-sm-3">
-                        <form action="<?= BASE_URL_ADMIN .'?act=sua-don-hang'?> "method="POST">
-                            <div class="d-flex justifi-content-betwen align-items-center">
-                            <div class="d-flex justify-content-betwen me-4">
+                        <form action="<?= BASE_URL_ADMIN .'?act=sua-don-hang'?> "method="POST" id="updateOrderForm">
+                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between me-4">
                                 <div>
                                     <input type="hidden" name="don_hang_id" value="<?= $donHang['id']?>">
-                                    <select name="trang_thai_id" class="form-control">
+                                    <select name="trang_thai_id" class="form-control" id="trangThaiSelect">
                                         <?php foreach ($listTrangThaiDonHang as $trangThai): ?>
                                             <option value="<?= $trangThai['id'] ?>" 
                                                 <?= ($trangThai['id'] == $donHang['trang_thai_id']) ? 'selected' : '' ?>
@@ -32,13 +33,13 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-secondary" style="margin-left:20px"> Cập Nhật</button>
+                                    <button type="submit" class="btn btn-secondary" style="margin-left:20px" id="updateBtn"> Cập Nhật</button>
                                 </div>    
                             </div>
                         </form>
+                    </div>
                 </div>
-            </div>
-        </div > <!-- /.container-fluid -->
+            </div > <!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
@@ -208,8 +209,42 @@
             "autoWidth": false,
             "responsive": true,
         });
+        
+        // Validation để đảm bảo chỉ có thể thay đổi trạng thái theo thứ tự từ trên xuống
+        $('#updateOrderForm').on('submit', function(e) {
+            var currentStatus = <?= $donHang['trang_thai_id'] ?>;
+            var newStatus = parseInt($('#trangThaiSelect').val());
+            
+            // Kiểm tra xem trạng thái mới có hợp lệ không (chỉ được tăng lên, không được giảm)
+            if (newStatus <= currentStatus) {
+                e.preventDefault();
+                alert('Bạn chỉ có thể cập nhật trạng thái đơn hàng theo thứ tự từ trên xuống. Không thể quay lại trạng thái trước đó.');
+                return false;
+            }
+            
+            // Kiểm tra xem có bỏ qua bước nào không
+            if (newStatus - currentStatus > 1) {
+                e.preventDefault();
+                alert('Bạn không thể bỏ qua bước. Vui lòng cập nhật trạng thái theo thứ tự từng bước một.');
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Disable các option không hợp lệ
+        $('#trangThaiSelect option').each(function() {
+            var optionValue = parseInt($(this).val());
+            var currentStatus = <?= $donHang['trang_thai_id'] ?>;
+            
+            // Disable các trạng thái đã qua hoặc bỏ qua bước
+            if (optionValue <= currentStatus || optionValue > currentStatus + 1) {
+                $(this).prop('disabled', true);
+            }
+        });
     })
 </script>
+
 <!-- code injected by live-server -->
 </body>
 </html>
