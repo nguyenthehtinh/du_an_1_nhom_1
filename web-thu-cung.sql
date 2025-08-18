@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th8 09, 2025 lúc 06:32 AM
+-- Thời gian đã tạo: Th8 15, 2025 lúc 04:58 PM
 -- Phiên bản máy phục vụ: 8.4.3
 -- Phiên bản PHP: 8.3.16
 
@@ -36,16 +36,6 @@ CREATE TABLE `binh_luans` (
   `trang_thai` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Đang đổ dữ liệu cho bảng `binh_luans`
---
-
-INSERT INTO `binh_luans` (`id`, `san_pham_id`, `tai_khoan_id`, `noi_dung`, `ngay_dang`, `trang_thai`) VALUES
-(1, 4, 2, 'Con chó này có đẳng cấp không', '2024-10-09', 1),
-(2, 4, 2, 'Shop rep em với', '2024-10-01', 1),
-(3, 6, 4, 'ship hỏa tốc thì bao giờ có', '2024-10-02', 1),
-(4, 6, 4, 'Shop rep em với', '2024-10-01', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -66,16 +56,18 @@ CREATE TABLE `chi_tiet_don_hangs` (
 --
 
 INSERT INTO `chi_tiet_don_hangs` (`id`, `don_hang_id`, `san_pham_id`, `don_gia`, `so_luong`, `thanh_tien`) VALUES
-(1, 1, 4, 12000000.00, 1, 12000000.00),
-(2, 1, 1, 1000.00, 2, 12345.00),
-(3, 2, 4, 12000000.00, 1, 12000000.00),
-(4, 2, 3, 1000.00, 2, 12345.00),
-(5, 19, 6, 19000000.00, 5, 95000000.00),
-(6, 20, 12, 27000.00, 7, 189000.00),
-(7, 21, 12, 27000.00, 7, 189000.00),
-(8, 22, 4, 40000000.00, 1, 40000000.00),
-(9, 23, 4, 40000000.00, 1, 40000000.00),
-(10, 23, 12, 27000.00, 1, 27000.00);
+(23, 36, 4, 40000000.00, 1, 40000000.00),
+(24, 37, 3, 1900000.00, 3, 5700000.00),
+(25, 38, 4, 40000000.00, 2, 80000000.00),
+(26, 41, 4, 40000000.00, 2, 80000000.00),
+(27, 42, 15, 1600000.00, 3, 4800000.00),
+(28, 43, 14, 11500000.00, 1, 11500000.00),
+(29, 44, 13, 15000000.00, 1, 15000000.00),
+(30, 45, 15, 1600000.00, 1, 1600000.00),
+(31, 46, 15, 1600000.00, 1, 1600000.00),
+(32, 47, 15, 1600000.00, 1, 1600000.00),
+(33, 48, 15, 1600000.00, 1, 1600000.00),
+(34, 49, 15, 1600000.00, 1, 1600000.00);
 
 -- --------------------------------------------------------
 
@@ -99,10 +91,7 @@ INSERT INTO `chi_tiet_gio_hangs` (`id`, `gio_hang_id`, `san_pham_id`, `so_luong`
 (11, 3, 6, 1),
 (12, 3, 8, 2),
 (13, 3, 3, 3),
-(14, 4, 6, 2),
-(17, 5, 4, 3),
-(18, 5, 12, 1),
-(19, 5, 3, 1);
+(14, 4, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -132,9 +121,16 @@ CREATE TABLE `danh_mucs` (
 --
 
 INSERT INTO `danh_mucs` (`id`, `ten_danh_muc`, `mo_ta`) VALUES
-(1, 'Chó Con', 'Danh mục Chó Con'),
-(2, 'Mèo Con', 'Danh mục Mèo Con'),
-(4, 'Hàng đang sale', 'Giá tốt');
+(5, 'Mèo Anh (Dài + Ngắn)', ''),
+(6, 'Mèo Chân Ngắn', ''),
+(7, 'Mèo Tai Cụp', ''),
+(8, 'Chó Phốc Sóc', ''),
+(9, 'Chó Shiba', ''),
+(10, 'Chó Pug Mặt Xệ', ''),
+(11, 'Chó Đốm', ''),
+(12, 'Chó Husky', ''),
+(13, 'Mèo Ba Tư', ''),
+(14, 'Mèo Golden', '');
 
 -- --------------------------------------------------------
 
@@ -151,7 +147,7 @@ CREATE TABLE `don_hangs` (
   `sdt_nguoi_nhan` varchar(15) NOT NULL,
   `dia_chi_nguoi_nhan` text NOT NULL,
   `ngay_dat` date NOT NULL,
-  `tong_tien` decimal(10,2) NOT NULL,
+  `tong_tien` decimal(12,2) NOT NULL,
   `ghi_chu` text,
   `phuong_thuc_thanh_toan_id` int NOT NULL,
   `trang_thai_id` int NOT NULL
@@ -162,13 +158,10 @@ CREATE TABLE `don_hangs` (
 --
 
 INSERT INTO `don_hangs` (`id`, `ma_don_hang`, `tai_khoan_id`, `ten_nguoi_nhan`, `email_nguoi_nhan`, `sdt_nguoi_nhan`, `dia_chi_nguoi_nhan`, `ngay_dat`, `tong_tien`, `ghi_chu`, `phuong_thuc_thanh_toan_id`, `trang_thai_id`) VALUES
-(8, 'DH-731346', 4, 'User', 'user@gmail.com', '12345', 'Số 1 trong lòng fan Mu', '2024-10-03', 87530000.00, ' ', 1, 9),
-(18, 'DH-314361', 4, 'Khách 1', 'user@gmail.com', '12345', 'Số 123 tổ 321', '2024-10-03', 38030000.00, 'Múppppp', 1, 6),
-(19, 'DH-848793', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '0389693510', 'Hà nội', '2025-08-08', 95040000.00, '123', 1, 11),
-(20, 'DH-47087', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '0389693510', '13, trịnh văn bô, nam từ liêm, hà nội', '2025-08-08', 229000.00, '1123', 1, 11),
-(21, 'DH-196933', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '0389693510', '13, trịnh văn bô, nam từ liêm, hà nội', '2025-08-08', 229000.00, '1', 1, 11),
-(22, 'DH-307398', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-09', 40040000.00, 'test', 1, 5),
-(23, 'DH-855288', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-09', 40067000.00, 'test', 1, 1);
+(46, 'DH-46743', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-15', 1640000.00, 'a', 1, 9),
+(47, 'DH-501673', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-15', 1640000.00, '', 1, 9),
+(48, 'DH-394094', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-15', 1640000.00, '123', 1, 5),
+(49, 'DH-663125', 8, 'Tuan Anh', 'hiendzml2301@gmail.com', '1234567890', 'Hà nội', '2025-08-15', 1640000.00, 'a', 1, 11);
 
 -- --------------------------------------------------------
 
@@ -187,7 +180,7 @@ CREATE TABLE `gio_hangs` (
 
 INSERT INTO `gio_hangs` (`id`, `tai_khoan_id`) VALUES
 (4, 4),
-(5, 8);
+(27, 8);
 
 -- --------------------------------------------------------
 
@@ -206,15 +199,20 @@ CREATE TABLE `hinh_anh_san_phams` (
 --
 
 INSERT INTO `hinh_anh_san_phams` (`id`, `san_pham_id`, `link_hinh_anh`) VALUES
-(9, 3, './uploads/1727877150tải xuống.jpg'),
-(10, 3, './uploads/1727877150anh-cho-phoc-huou-9902020207677.jpg'),
+(9, 3, './uploads/1754976814tay-ban-nha-vs-anh-chung-ket-euro-2024-9964jpg-17207537992602102455780.webp'),
+(10, 3, './uploads/1754976814mbappe-real-madrid-1737327071993264331824.webp'),
 (11, 6, './uploads/1727877219C2562-C13098-5.jpg'),
 (12, 6, './uploads/1727877219C2562-C13098-2.jpg'),
 (13, 6, './uploads/1727877219C2562-C13098-3.jpg'),
 (14, 6, './uploads/1727877219C2562-C13098-4.jpg'),
 (15, 4, './uploads/1727877189inr5f4qalj068szn2bs34qmv28r2_phoi-giong-meo-munchkin.webp'),
 (16, 4, './uploads/1727877189meo-aln-ma-1227.jpg'),
-(20, 12, './uploads/1753943701z5795200891693-947e59216db90bc7b1ccc01ea0e735f5.webp');
+(21, 13, './uploads/1755154485cho-phoc-soc-mini-mat-gau-mau-trang-ma-PS3267-1510x1133.jpg'),
+(22, 13, './uploads/1755154509cho-phoc-soc-mini-mat-gau-mau-trang-ma-PS3267-1510x1133.jpg'),
+(25, 14, './uploads/1755154807cho-phoc-soc-mau-vang-cam-ma-PS3229.jpg'),
+(26, 15, './uploads/1755155214cho-shiba-Inu-ma-1938-1510x1133.jpg'),
+(27, 15, './uploads/1755155214cho-shiba-Inu-mau-vang-trang-ma-1938-1510x1133.jpg'),
+(28, 15, './uploads/1755155214cho-shiba-Inu-sieu-beo-ma-1938-1510x1133.jpg');
 
 -- --------------------------------------------------------
 
@@ -260,10 +258,12 @@ CREATE TABLE `san_phams` (
 --
 
 INSERT INTO `san_phams` (`id`, `ten_san_pham`, `gia_san_pham`, `gia_khuyen_mai`, `hinh_anh`, `so_luong`, `luot_xem`, `ngay_nhap`, `mo_ta`, `danh_muc_id`, `trang_thai`) VALUES
-(3, 'Chó Phốc', 2000000.00, 1900000.00, './uploads/1727877156tải xuống.jpg', 1, 0, '2024-09-28', 'Chó Phốc dễ thương', 1, 1),
-(4, 'Mèo Munchkin', 12000000.00, 40000000.00, './uploads/1727877173meo-aln-ma-1227.jpg', 1, 0, '2024-09-29', 'Mèo chân ngắn dễ thương', 2, 1),
-(6, 'Golden Retriever ', 21000000.00, 19000000.00, './uploads/1727877226C2562-C13098-2.jpg', 1, 0, '2024-09-28', 'Golden Retriever là giống chó săn của Scotland có kích thước trung bình. Nó được đặc trưng bởi bản tính hiền lành và tình cảm cùng bộ lông vàng nổi bật.', 1, 1),
-(12, 'Chó Thịnh nè', 120000.00, 27000.00, './uploads/175394370115-giong-cho-canh-dep-de-cham-soc-pho-bien-tai-viet-nam-202104121501444654.jpg', 6, 0, '2025-07-13', 'ok lắm nha', 1, 1);
+(3, 'Chó Phốc', 2000000.00, 1900000.00, './uploads/1754976822bat-ngo-voi-doi-ban-ve-dat-nhat-o-giai-ngoai-hang-anh-cropped-1753325834812.webp', 0, 0, '2024-09-28', 'Chó Phốc dễ thương', 1, 1),
+(4, 'Mèo Munchkin', 12000000.00, 40000000.00, './uploads/175497889815-giong-cho-canh-dep-de-cham-soc-pho-bien-tai-viet-nam-202104121501444654.jpg', 14985, 0, '2024-09-29', 'Mèo chân ngắn dễ thương', 2, 1),
+(6, 'Golden Retriever ', 21000000.00, 19000000.00, './uploads/1754978870z5795200891693-947e59216db90bc7b1ccc01ea0e735f5.webp', 50, 0, '2024-09-28', 'Golden Retriever là giống chó săn của Scotland có kích thước trung bình. Nó được đặc trưng bởi bản tính hiền lành và tình cảm cùng bộ lông vàng nổi bật.', 1, 1),
+(13, 'Chó Phốc Sóc Vip mini mặt gấu màu trắng', 16000000.00, 15000000.00, './uploads/1755154900cho-phoc-soc-mini-mat-gau-mau-trang-ma-PS3267-1510x1133.jpg', 19, 0, '2025-08-08', 'Tháng tuổi: 2 tháng tuổi\r\nTẩy giun: 1 lần\r\nNguồn gốc: Thuần chủng, sinh sản tại Trại Pethouse\r\nTiêm phòng: 1 mũi vacxin\r\nSức khỏe: Nhanh nhẹn, ăn uống tốt', 8, 1),
+(14, 'Chó Phốc sóc màu vàng cam ', 12000000.00, 11500000.00, './uploads/1755154850cho-phoc-soc-ma-PS3229.jpg', 14, 0, '2025-08-11', 'Tháng tuổi:12 tháng tuổi\r\nGiới tính: Cái\r\nNguồn gốc: Thuần chủng, sinh sản tại Trại Pethouse\r\nTẩy giun: 1 lần\r\nĐặc điểm: Nhanh nhẹn', 8, 1),
+(15, 'Chó Shiba Inu vàng trắng', 1600000.00, NULL, './uploads/1755155214cho-shiba-Inu-ma-1938-1510x1133.jpg', 24, 0, '2025-08-14', 'Tháng tuổi: 2 tháng tuổi\r\nGiới tính: Đực\r\nMàu: Vàng trắng\r\nTẩy giun: 1 lần\r\nNguồn gốc: Thuần chủng, sinh sản tại Trại Pethouse\r\nĐặc điểm: Lông ngắn, đáng yêu', 9, 1);
 
 -- --------------------------------------------------------
 
@@ -293,7 +293,9 @@ INSERT INTO `tai_khoans` (`id`, `ho_ten`, `anh_dai_dien`, `ngay_sinh`, `email`, 
 (2, 'Gia hào', NULL, '2024-09-11', 'hao@gmail.com', '1234567890', 1, 'Số 1 thanh trì', '$2y$10$wmaREKm7ifjpbzRTFyXgmuumy/rve4mWN7r101KzSmGakPXc.h1di', 1, 1),
 (4, 'Khách 1', NULL, '2015-09-15', 'user@gmail.com', '12345', 1, 'Số 123 tổ 321', '$2y$10$XiF9md54PLmD0wyYiB.rsenD/4lCyF60zzB7eZjlVyjkFjJqz0lPu', 2, 2),
 (7, 'Administrator', NULL, NULL, 'admin@gmail.com', NULL, 1, NULL, '$2y$10$.57VOLNpOBqmbG82A0aUluYC3gcTWbIQ8qT6FRywbZvdL4a/2mOji', 1, 1),
-(8, 'Tuan Anh', NULL, '2025-08-04', 'hiendzml2301@gmail.com', '1234567890', 1, 'Hà nội', '$2y$10$PA3.czEbODf.WLUM3SRMte1qRRtKmeXFcfdzEun9X9roIl13pTFPm', 2, 1);
+(8, 'Tuan Anh', NULL, '2025-08-04', 'hiendzml2301@gmail.com', '1234567890', 1, 'Hà nội', '$2y$10$PA3.czEbODf.WLUM3SRMte1qRRtKmeXFcfdzEun9X9roIl13pTFPm', 2, 1),
+(9, 'Tuan Anh', NULL, NULL, 'a@gmail.com', NULL, 1, NULL, '$2y$10$MUFxXx94gIzLHut7x1bDUelCEXCoi3CV1kPyOC7feO2FSityqTq6W', 2, 1),
+(10, 'Khách 1', NULL, NULL, '1@gmail.com', NULL, 1, NULL, '$2y$10$McEpUVuUqiHxstVM9MlOjeNtDkGLtCrO0.79IS7QsJB3viiA8/rOO', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -414,13 +416,13 @@ ALTER TABLE `binh_luans`
 -- AUTO_INCREMENT cho bảng `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT cho bảng `chuc_vus`
@@ -432,25 +434,25 @@ ALTER TABLE `chuc_vus`
 -- AUTO_INCREMENT cho bảng `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `don_hangs`
 --
 ALTER TABLE `don_hangs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT cho bảng `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `hinh_anh_san_phams`
 --
 ALTER TABLE `hinh_anh_san_phams`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT cho bảng `phuong_thuc_thanh_toans`
@@ -462,13 +464,13 @@ ALTER TABLE `phuong_thuc_thanh_toans`
 -- AUTO_INCREMENT cho bảng `san_phams`
 --
 ALTER TABLE `san_phams`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `tai_khoans`
 --
 ALTER TABLE `tai_khoans`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `trang_thai_don_hangs`
