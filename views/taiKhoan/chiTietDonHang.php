@@ -4,48 +4,48 @@
 
 
 <div class="order-detail-wrapper section-padding">
-    <div class="container">
-        <div class="section-bg-color">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Hiển thị thông báo thành công/lỗi -->
-                    <?php if (isset($_SESSION['success']) && $_SESSION['success'] !== '' && $_SESSION['success'] !== 0): ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa fa-check-circle"></i> <?= htmlspecialchars($_SESSION['success']) ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        <?php unset($_SESSION['success']); ?>
-                    <?php endif; ?>
+	<div class="container">
+		<div class="section-bg-color">
+			<div class="row">
+				<div class="col-lg-12">
+					<!-- Hiển thị thông báo thành công/lỗi -->
+					<?php if (isset($_SESSION['success']) && $_SESSION['success'] !== '' && $_SESSION['success'] !== 0): ?>
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<i class="fa fa-check-circle"></i> <?= htmlspecialchars($_SESSION['success']) ?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<?php unset($_SESSION['success']); ?>
+					<?php endif; ?>
 
-                    <?php if (isset($_SESSION['error']) && $_SESSION['error'] !== '' && $_SESSION['error'] !== 0 && $_SESSION['error'] !== []): ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fa fa-exclamation-circle"></i> 
-                            <?php 
-                            // Xử lý hiển thị lỗi an toàn
-                            if (is_array($_SESSION['error'])) {
-                                if (empty($_SESSION['error'])) {
-                                    echo "Không có thông tin lỗi cụ thể";
-                                } else {
-                                    echo htmlspecialchars(implode("<br>", $_SESSION['error']));
-                                }
-                            } elseif (is_object($_SESSION['error'])) {
-                                echo htmlspecialchars((string)$_SESSION['error']);
-                            } elseif (is_numeric($_SESSION['error']) && $_SESSION['error'] == 0) {
-                                echo "Không có lỗi xảy ra";
-                            } elseif (is_numeric($_SESSION['error'])) {
-                                echo "Mã lỗi: " . htmlspecialchars((string)$_SESSION['error']);
-                            } else {
-                                echo htmlspecialchars((string)$_SESSION['error']);
-                            }
-                            ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        <?php unset($_SESSION['error']); ?>
-                    <?php endif; ?>
-                    
+					<?php if (isset($_SESSION['error']) && $_SESSION['error'] !== '' && $_SESSION['error'] !== 0 && $_SESSION['error'] !== []): ?>
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<i class="fa fa-exclamation-circle"></i> 
+							<?php 
+							// Xử lý hiển thị lỗi an toàn
+							if (is_array($_SESSION['error'])) {
+								if (empty($_SESSION['error'])) {
+									echo "Không có thông tin lỗi cụ thể";
+								} else {
+									echo htmlspecialchars(implode("<br>", $_SESSION['error']));
+								}
+							} elseif (is_object($_SESSION['error'])) {
+								echo htmlspecialchars((string)$_SESSION['error']);
+							} elseif (is_numeric($_SESSION['error']) && $_SESSION['error'] == 0) {
+								echo "Không có lỗi xảy ra";
+							} elseif (is_numeric($_SESSION['error'])) {
+								echo "Mã lỗi: " . htmlspecialchars((string)$_SESSION['error']);
+							} else {
+								echo htmlspecialchars((string)$_SESSION['error']);
+							}
+							?>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+						</div>
+						<?php unset($_SESSION['error']); ?>
+					<?php endif; ?>
+					
 
 
-                    <h2 class="mb-3">Chi Tiết Đơn Hàng</h2>
+					<h2 class="mb-3">Chi Tiết Đơn Hàng</h2>
 						<?php 
 							$ngayDat = isset($donHang['ngay_dat']) ? fomatDate($donHang['ngay_dat']) : '';
 							$tam_tinh = 0; 
@@ -135,11 +135,11 @@
 									<table class="table table-bordered align-middle">
 										<thead class="table-light">
 											<tr>
-																					<th class="pro-thumbnail">Hình Ảnh</th>
-									<th class="pro-title">Tên Sản Phẩm</th>
-									<th class="pro-price">Đơn Giá</th>
-									<th class="pro-quantity">Số Lượng</th>
-									<th class="pro-subtotal">Thành Tiền</th>
+																			<th class="pro-thumbnail">Hình Ảnh</th>
+											<th class="pro-title">Tên Sản Phẩm</th>
+											<th class="pro-price">Đơn Giá</th>
+											<th class="pro-quantity">Số Lượng</th>
+											<th class="pro-subtotal">Thành Tiền</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -173,19 +173,24 @@
 									<div class="d-flex justify-content-between mb-2"><span>Phí vận chuyển</span><strong><?= fomatPrice(40000) . 'đ' ?></strong></div>
 									<hr class="order-summary-divider" />
 									<div class="d-flex justify-content-between mb-3"><span>Tổng cộng</span><strong class="order-total-price"><?= fomatPrice($tam_tinh + 40000) . 'đ' ?></strong></div>
-									
+									<?php if ((int)($donHang['trang_thai_id'] ?? 0) === 8 || (int)($donHang['trang_thai_id'] ?? 0) === 9): ?>
+										<form action="<?= BASE_URL . '?act=hoan-hang' ?>" method="POST" class="mb-2">
+											<input type="hidden" name="id_don_hang" value="<?= htmlspecialchars($donHang['id'] ?? '') ?>">
+											<button type="submit" class="btn btn-danger w-100" onclick="return confirm('Xác nhận yêu cầu hoàn hàng?')">Hoàn hàng</button>
+										</form>
+									<?php endif; ?>
 
-									
 									<a href="<?= BASE_URL . '?act=tai-khoan' ?>" class="btn btn-sqr w-100">Trở về</a>
 								</div>
 							</div>
 						</div>
 
-                    <a href="<?= BASE_URL . '?act=tai-khoan' ?>" class="btn btn-sqr d-block">Trở về</a>
-                </div>
-            </div>
-        </div>
-    </div>
+						<a href="<?= BASE_URL . '?act=tai-khoan' ?>" class="btn btn-sqr d-block">Trở về</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php require_once "views/layout/footer.php"; ?>

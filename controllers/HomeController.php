@@ -618,5 +618,35 @@ class HomeController
         }
     }
 
-    
+    public function hoanHang()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $don_hang_id = $_POST['id_don_hang'] ?? null;
+            if (!$don_hang_id) {
+                $_SESSION['error'] = 'Không tìm thấy đơn hàng để hoàn.';
+                header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
+                exit();
+            }
+
+            $donHang = $this->modelDonHang->getDonHangById($don_hang_id);
+            if (!$donHang) {
+                $_SESSION['error'] = 'Đơn hàng không tồn tại.';
+                header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
+                exit();
+            }
+
+            $trang_thai_hien_tai = (int)($donHang['trang_thai_id'] ?? 0);
+            // Chỉ cho phép hoàn khi đã nhận hàng (8) hoặc thành công (9)
+            if ($trang_thai_hien_tai === 8 || $trang_thai_hien_tai === 9) {
+                $this->modelDonHang->updateDonHang($don_hang_id, 10); // 10: Hoàn Hàng
+                $_SESSION['success'] = 'Yêu cầu hoàn hàng đã được gửi.';
+            } else {
+                $_SESSION['error'] = 'Chỉ có đơn ở trạng thái Đã nhận hàng hoặc Thành công mới được hoàn.';
+            }
+
+            header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
+            exit();
+        }
+    }
+
 }

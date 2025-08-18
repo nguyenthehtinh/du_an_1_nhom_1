@@ -139,18 +139,27 @@
                                                                         class="btn btn-sqr">Xem chi tiết</a>
                                                                 </td>
 
-                                                                                                                                       <td>
-                                                                           <?php if ((int)$donHang['trang_thai_id'] === 1): ?>
-                                                                               <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST" class="d-inline">
-                                                                                   <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>">
-                                                                                   <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Bạn muốn hủy đơn?')">
-                                                                                       <i class="fa fa-times"></i> Hủy đơn
-                                                                                   </button>
-                                                                               </form>
-                                                                           <?php else: ?>
-                                                                               <span class="text-muted">Không có thao tác</span>
-                                                                           <?php endif; ?>
-                                                                       </td>
+                                                                <td>
+                                                                    <?php if ((int)$donHang['trang_thai_id'] === 1): ?>
+                                                                        <form action="<?= BASE_URL . '?act=huy-don-hang' ?>" method="POST" class="d-inline">
+                                                                            <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>">
+                                                                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Bạn muốn hủy đơn?')">
+                                                                                <i class="fa fa-times"></i> Hủy đơn
+                                                                            </button>
+                                                                        </form>
+                                                                    <?php endif; ?>
+                                                                    <?php if ((int)$donHang['trang_thai_id'] === 8 || (int)$donHang['trang_thai_id'] === 9): ?>
+                                                                        <form action="<?= BASE_URL . '?act=hoan-hang' ?>" method="POST" class="d-inline">
+                                                                            <input type="hidden" name="id_don_hang" value="<?= $donHang['id']; ?>">
+                                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Xác nhận yêu cầu hoàn hàng?')">
+                                                                                <i class="fa fa-undo"></i> Hoàn hàng
+                                                                            </button>
+                                                                        </form>
+                                                                    <?php endif; ?>
+                                                                    <?php if ((int)$donHang['trang_thai_id'] !== 1 && (int)$donHang['trang_thai_id'] !== 8 && (int)$donHang['trang_thai_id'] !== 9): ?>
+                                                                        <span class="text-muted">Không có thao tác</span>
+                                                                    <?php endif; ?>
+                                                                </td>
                                                             </tr>
                                                         <?php endforeach; ?>
                                                     </tbody>
