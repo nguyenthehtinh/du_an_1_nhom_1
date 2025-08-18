@@ -95,4 +95,61 @@ class TaiKhoan
             return false;
         }
     }
+
+    public function updatePassword($tai_khoan_id, $new_password)
+    {
+        try {
+            $hashedPassword = password_hash($new_password, PASSWORD_BCRYPT);
+            
+            $sql = "UPDATE tai_khoans SET mat_khau = :mat_khau WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            
+            $stmt->execute([
+                ':mat_khau' => $hashedPassword,
+                ':id' => $tai_khoan_id
+            ]);
+            
+            return true;
+        } catch (\Exception $e) {
+            error_log('Lỗi cập nhật mật khẩu: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function verifyPassword($tai_khoan_id, $current_password)
+    {
+        try {
+            $sql = "SELECT mat_khau FROM tai_khoans WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':id' => $tai_khoan_id]);
+            
+            $user = $stmt->fetch();
+            if ($user && password_verify($current_password, $user['mat_khau'])) {
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            error_log('Lỗi xác thực mật khẩu: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function updateProfile($tai_khoan_id, $ho_ten, $email)
+    {
+        try {
+            $sql = "UPDATE tai_khoans SET ho_ten = :ho_ten, email = :email WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            
+            $stmt->execute([
+                ':ho_ten' => $ho_ten,
+                ':email' => $email,
+                ':id' => $tai_khoan_id
+            ]);
+            
+            return true;
+        } catch (\Exception $e) {
+            error_log('Lỗi cập nhật thông tin: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

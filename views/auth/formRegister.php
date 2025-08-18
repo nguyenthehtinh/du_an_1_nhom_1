@@ -51,33 +51,76 @@
 
                             <!-- Hiển thị thông báo thành công -->
                             <?php if (isset($_SESSION['success'])): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="fa fa-check-circle"></i> <?= htmlspecialchars($_SESSION['success']) ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                                <?php unset($_SESSION['success']); ?>
+                                <?php 
+                                // Chỉ hiển thị thông báo thành công nếu không phải là thông báo logout
+                                if ($_SESSION['success'] !== 'Bạn đã đăng xuất.') {
+                                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                                    echo '<i class="fa fa-check-circle"></i> ' . htmlspecialchars($_SESSION['success']);
+                                    echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                                    echo '</div>';
+                                }
+                                // Clear session success sau khi hiển thị
+                                unset($_SESSION['success']); 
+                                ?>
                             <?php else: ?>
                                 <p class="login-box-msg text-center">Vui Lòng Điền Thông Tin</p>
                             <?php endif; ?>
 
                             <form action="<?= BASE_URL . '?act=check-register' ?>" method="POST">
                                 <div class="single-input-item">
-                                    <input type="text" placeholder="Họ Tên" name="ho_ten" required />
+                                    <input type="text" placeholder="Full Name" name="ho_ten" 
+                                           value="<?= htmlspecialchars($_SESSION['old_data']['ho_ten'] ?? '') ?>"
+                                           minlength="2" maxlength="50" required />
+                                    <?php if (isset($_SESSION['error']['ho_ten'])): ?>
+                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                            <?= htmlspecialchars($_SESSION['error']['ho_ten']) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="single-input-item">
-                                    <input type="email" placeholder="Email" name="email" required />
+                                    <input type="email" placeholder="Email" name="email" 
+                                           value="<?= htmlspecialchars($_SESSION['old_data']['email'] ?? '') ?>"
+                                           required />
+                                    <?php if (isset($_SESSION['error']['email'])): ?>
+                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                            <?= htmlspecialchars($_SESSION['error']['email']) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="single-input-item">
-                                    <input type="password" placeholder="Nhập mật khẩu" name="mat_khau" required />
+                                    <input type="password" placeholder="Nhập mật khẩu" name="mat_khau" 
+                                           minlength="6" required />
+                                    <?php if (isset($_SESSION['error']['mat_khau'])): ?>
+                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                            <?= htmlspecialchars($_SESSION['error']['mat_khau']) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="single-input-item">
-                                    <input type="password" placeholder="Xác nhận mật khẩu" name="confirm_password" required />
+                                    <input type="password" placeholder="Xác nhận mật khẩu" name="confirm_password" 
+                                           minlength="6" required />
+                                    <?php if (isset($_SESSION['error']['confirm_password'])): ?>
+                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                            <?= htmlspecialchars($_SESSION['error']['confirm_password']) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="single-input-item">
                                     <button type="submit" class="btn btn-sqr">Đăng Ký</button>
                                     <a href="<?= BASE_URL . "?act=login" ?>" class="btn btn-sqr">Quay Lại Đăng Nhập</a>
                                 </div>
                             </form>
+                            
+                            <?php 
+                            // Clear old data session after displaying
+                            if (isset($_SESSION['old_data'])) {
+                                unset($_SESSION['old_data']);
+                            }
+                            // Clear error session after displaying
+                            if (isset($_SESSION['error'])) {
+                                unset($_SESSION['error']);
+                            }
+                            ?>
                         </div>
                     </div>
                     <!-- Register Content End -->

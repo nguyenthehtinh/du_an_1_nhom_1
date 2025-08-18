@@ -38,6 +38,9 @@ class HomeController
             $donHangModel = new DonHang();
             $listDonHang = $donHangModel->getDonHangByTaiKhoan($tai_khoan_id);
 
+            // Lấy thông tin người dùng hiện tại để hiển thị ở tab Account Details
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client'] ?? '');
+
             // Gửi dữ liệu ra view
             require_once "./views/taiKhoan/taiKhoan.php";
         } else {
@@ -291,6 +294,10 @@ class HomeController
             // Nếu có lỗi, lưu vào session và trả về trang đăng ký
             if (!empty($errors)) {
                 $_SESSION['error'] = $errors; // Lưu mảng lỗi để hiển thị đúng
+                $_SESSION['old_data'] = [
+                    'ho_ten' => $hoTen,
+                    'email' => $email
+                ]; // Lưu dữ liệu cũ để giữ lại giá trị đã nhập
                 $_SESSION['flash'] = true;
                 header("Location:" . BASE_URL . '?act=register');
                 exit();
@@ -646,6 +653,124 @@ class HomeController
 
             header("Location: " . BASE_URL . "?act=tai-khoan&tab=orders");
             exit();
+        }
+    }
+
+    public function changePassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_SESSION['user_client'])) {
+                header("Location:" . BASE_URL . "?act=login");
+                exit();
+            }
+
+            $current_password = $_POST['current_password'] ?? '';
+            $new_password = $_POST['new_password'] ?? '';
+            $confirm_password = $_POST['confirm_password'] ?? '';
+
+            $errors = [];
+
+            // Validation
+            if (empty($current_password)) {
+                $errors['current_password'] = 'Vui lòng nhập mật khẩu hiện tại';
+            }
+
+            if (empty($new_password)) {
+                $errors['new_password'] = 'Vui lòng nhập mật khẩu mới';
+            } elseif (strlen($new_password) < 6) {
+                $errors['new_password'] = 'Mật khẩu mới phải có ít nhất 6 ký tự';
+            }
+
+            if (empty($confirm_password)) {
+                $errors['confirm_password'] = 'Vui lòng xác nhận mật khẩu mới';
+            } elseif ($new_password !== $confirm_password) {
+                $errors['confirm_password'] = 'Mật khẩu xác nhận không khớp';
+            }
+
+            if (empty($errors)) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                
+                // Verify current password
+                if (!$this->modelTaiKhoan->verifyPassword($user['id'], $current_password)) {
+                    $errors['current_password'] = 'Mật khẩu hiện tại không đúng';
+                } else {
+                    // Update password
+                    if ($this->modelTaiKhoan->updatePassword($user['id'], $new_password)) {
+                        $_SESSION['success'] = 'Đổi mật khẩu thành công!';
+                        header("Location:" . BASE_URL . "?act=tai-khoan&tab=account-info");
+                        exit();
+                    } else {
+                        $errors['general'] = 'Có lỗi xảy ra khi cập nhật mật khẩu';
+                    }
+                }
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['error'] = $errors;
+                header("Location:" . BASE_URL . "?act=tai-khoan&tab=account-info");
+                exit();
+            }
+        }
+    }
+
+    public function updateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_SESSION['user_client'])) {
+                header("Location:" . BASE_URL . "?act=login");
+                exit();
+            }
+
+            $full_name = trim($_POST['full_name'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+
+            $errors = [];
+
+            // Validation
+            if (empty($full_name)) {
+                $errors['full_name'] = 'Vui lòng nhập họ và tên';
+            } elseif (strlen($full_name) < 2) {
+                $errors['full_name'] = 'Họ và tên phải có ít nhất 2 ký tự';
+            }
+
+            if (empty($email)) {
+                $errors['email'] = 'Vui lòng nhập email';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Email không đúng định dạng';
+            }
+
+            if (empty($errors)) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                
+                // Check if email is already used by another user
+                if ($email !== $user['email']) {
+                    $existingUser = $this->modelTaiKhoan->getTaiKhoanFromEmail($email);
+                    if ($existingUser && $existingUser['id'] !== $user['id']) {
+                        $errors['email'] = 'Email này đã được sử dụng bởi tài khoản khác';
+                    }
+                }
+
+                if (empty($errors)) {
+                    // Update user profile
+                    if ($this->modelTaiKhoan->updateProfile($user['id'], $full_name, $email)) {
+                        $_SESSION['success'] = 'Cập nhật thông tin thành công!';
+                        // Update session email if changed
+                        if ($email !== $user['email']) {
+                            $_SESSION['user_client'] = $email;
+                        }
+                        header("Location:" . BASE_URL . "?act=tai-khoan&tab=account-info");
+                        exit();
+                    } else {
+                        $errors['general'] = 'Có lỗi xảy ra khi cập nhật thông tin';
+                    }
+                }
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['error'] = $errors;
+                header("Location:" . BASE_URL . "?act=tai-khoan&tab=account-info");
+                exit();
+            }
         }
     }
 

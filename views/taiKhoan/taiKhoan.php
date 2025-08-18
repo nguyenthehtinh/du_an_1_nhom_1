@@ -1,7 +1,9 @@
 <?php require_once 'views/layout/header.php'; ?>
 <?php require_once 'views/layout/menu.php'; ?>
 
-
+<?php
+$fullName = trim($user['ho_ten'] ?? '');
+?>
 
 
 <div class="my-account-wrapper section-padding">
@@ -205,60 +207,85 @@
                                         <div class="myaccount-content">
                                             <h5>Account Details</h5>
                                             <div class="account-details-form">
-                                                <form action="#">
+                                                <!-- Profile Update Form -->
+                                                <form action="<?= BASE_URL . '?act=update-profile' ?>" method="POST">
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item">
-                                                                <label for="first-name" class="required">First
-                                                                    Name</label>
-                                                                <input type="text" id="first-name"
-                                                                    placeholder="First Name" />
+                                                                <label for="full-name" class="required">Full Name</label>
+                                                                <input type="text" id="full-name" name="full_name" placeholder="Full Name" value="<?= htmlspecialchars($fullName) ?>" />
+                                                                <?php if (isset($_SESSION['error']['full_name'])): ?>
+                                                                    <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                        <?= htmlspecialchars($_SESSION['error']['full_name']) ?>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item">
-                                                                <label for="last-name" class="required">Last
-                                                                    Name</label>
-                                                                <input type="text" id="last-name"
-                                                                    placeholder="Last Name" />
+                                                                <label for="email" class="required">Email Address</label>
+                                                                <input type="email" id="email" name="email" placeholder="Email Address" value="<?= htmlspecialchars($user['email'] ?? '') ?>" />
+                                                                <?php if (isset($_SESSION['error']['email'])): ?>
+                                                                    <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                        <?= htmlspecialchars($_SESSION['error']['email']) ?>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="single-input-item">
-                                                        <label for="display-name" class="required">Display Name</label>
-                                                        <input type="text" id="display-name"
-                                                            placeholder="Display Name" />
+                                                        <button type="submit" class="btn btn-sqr">Update Profile</button>
                                                     </div>
-                                                    <div class="single-input-item">
-                                                        <label for="email" class="required">Email Addres</label>
-                                                        <input type="email" id="email" placeholder="Email Address" />
-                                                    </div>
+                                                </form>
+                                                
+                                                <!-- Password Change Form -->
+                                                <form action="<?= BASE_URL . '?act=change-password' ?>" method="POST" style="margin-top: 30px;">
                                                     <fieldset>
                                                         <legend>Password change</legend>
                                                         <div class="single-input-item">
                                                             <label for="current-pwd" class="required">Current
                                                                 Password</label>
-                                                            <input type="password" id="current-pwd"
-                                                                placeholder="Current Password" />
+                                                            <input type="password" id="current-pwd" name="current_password"
+                                                                placeholder="Current Password" required />
+                                                            <?php if (isset($_SESSION['error']['current_password'])): ?>
+                                                                <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                    <?= htmlspecialchars($_SESSION['error']['current_password']) ?>
+                                                                </div>
+                                                            <?php endif; ?>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="new-pwd" class="required">New
                                                                         Password</label>
-                                                                    <input type="password" id="new-pwd"
-                                                                        placeholder="New Password" />
+                                                                    <input type="password" id="new-pwd" name="new_password"
+                                                                        placeholder="New Password" required />
+                                                                    <?php if (isset($_SESSION['error']['new_password'])): ?>
+                                                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                            <?= htmlspecialchars($_SESSION['error']['new_password']) ?>
+                                                                        </div>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="confirm-pwd" class="required">Confirm
                                                                         Password</label>
-                                                                    <input type="password" id="confirm-pwd"
-                                                                        placeholder="Confirm Password" />
+                                                                    <input type="password" id="confirm-pwd" name="confirm_password"
+                                                                        placeholder="Confirm Password" required />
+                                                                    <?php if (isset($_SESSION['error']['confirm_password'])): ?>
+                                                                        <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                            <?= htmlspecialchars($_SESSION['error']['confirm_password']) ?>
+                                                                        </div>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <?php if (isset($_SESSION['error']['general'])): ?>
+                                                            <div class="error" style="color: red; font-size: 12px; margin-top: 5px;">
+                                                                <?= htmlspecialchars($_SESSION['error']['general']) ?>
+                                                            </div>
+                                                        <?php endif; ?>
                                                     </fieldset>
                                                     <div class="single-input-item">
                                                         <button class="btn btn-sqr">Save Changes</button>
